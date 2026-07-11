@@ -23,6 +23,10 @@
 # misc
 .DS_Store
 *.pem
+.cursor/
+
+# unused (replaced by CSS mesh)
+/public/hero/hero-bg.jpg
 
 # debug
 npm-debug.log*
