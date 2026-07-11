@@ -71,13 +71,6 @@ function HeroLetter({
       }}
       onAnimationComplete={() => setIntroDone(true)}
     >
-      {/* Soft blur glow of the letter */}
-      <Image
-        src={letter.src}
-        alt=""
-        fill
-        className="object-contain brightness-0 invert blur-xl opacity-70"
-      />
       <Image
         src={letter.src}
         alt=""
