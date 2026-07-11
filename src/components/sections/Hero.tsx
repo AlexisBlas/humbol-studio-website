@@ -99,6 +99,11 @@ export function Hero() {
         <section className="sticky top-0 isolate flex h-svh w-full flex-col overflow-hidden rounded-b-[32px]">
           <HeroMeshBackground />
           <HeroWebGL />
+          {/* Soft fade into the page background / About */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[28%] bg-gradient-to-b from-transparent via-bg-primary/50 to-bg-primary"
+          />
           <h1 className="sr-only">
             humbol — we design what people remember. We build what teams depend
             on.
