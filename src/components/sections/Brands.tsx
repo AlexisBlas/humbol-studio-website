@@ -4,6 +4,8 @@ import { SectionRow } from "@/components/ui/SectionRow";
 const brands = [
   { name: "FirstBank", src: "/brands/first_bank.svg" },
   { name: "WAPA.tv", src: "/brands/wapa.svg" },
+  { name: "PlayStation", src: "/brands/playstation.svg" },
+  { name: "Firefox", src: "/brands/firefox.svg" },
   { name: "Resume Help", src: "/brands/resume_help.svg" },
   { name: "Resume Genius", src: "/brands/resume_genius.svg" },
   { name: "Resume Nerd", src: "/brands/resume_nerd.svg" },
