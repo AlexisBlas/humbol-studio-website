@@ -83,14 +83,19 @@ function HeroLetter({
 
 export function Hero() {
   const pinRef = useRef<HTMLDivElement>(null);
+  const [copyIntroDone, setCopyIntroDone] = useState(false);
   /* Progress 0→1 across the pinned scrub (1 viewport of scroll). */
   const { scrollYProgress } = useScroll({
     target: pinRef,
     offset: ["start start", "end end"],
   });
 
-  const copyOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-  const copyY = useTransform(scrollYProgress, [0, 0.55], [0, 40]);
+  /* Hide tagline + CTA early in the scrub so they clear before the sphere morph peaks. */
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.22], [1, 0]);
+  const copyY = useTransform(scrollYProgress, [0, 0.22], [0, 28]);
+  const copyPointerEvents = useTransform(copyOpacity, (v) =>
+    v < 0.05 ? "none" : "auto",
+  );
 
   return (
     <MotionConfig reducedMotion="user">
@@ -125,36 +130,40 @@ export function Hero() {
           </div>
           <motion.div
             className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-8 px-margin-mobile pb-12 md:flex-row md:items-end md:justify-between md:px-stack-lg"
-            style={{ opacity: copyOpacity, y: copyY }}
+            style={
+              copyIntroDone
+                ? {
+                    opacity: copyOpacity,
+                    y: copyY,
+                    pointerEvents: copyPointerEvents,
+                  }
+                : undefined
+            }
+            initial={{ opacity: 0, y: 32 }}
+            animate={copyIntroDone ? false : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 1.05, ease: "easeOut" }}
+            onAnimationComplete={() => setCopyIntroDone(true)}
           >
             <div className="flex flex-col gap-6 md:gap-8">
               <motion.div
                 className="h-[6px] rounded-full bg-iron/60 mix-blend-plus-lighter"
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 117, opacity: 1 }}
+                initial={{ width: 0 }}
+                animate={{ width: 117 }}
                 transition={{ duration: 0.4, delay: 0.9, ease: "easeInOut" }}
               />
-              <motion.p
-                className="text-lg font-bold leading-[1.2] tracking-[-0.01em] text-iron md:text-[23px]"
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 1.05, ease: "easeOut" }}
-              >
+              <p className="text-lg font-bold leading-[1.2] tracking-[-0.01em] text-iron md:text-[23px]">
                 We design what people remember.
                 <br />
                 We build what teams depend on.
-              </motion.p>
+              </p>
             </div>
-            <motion.a
+            <a
               href="#services"
               className="group flex items-center gap-3 text-base font-bold text-iron"
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 1.15, ease: "easeOut" }}
             >
               See what we do
               <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
-            </motion.a>
+            </a>
           </motion.div>
         </section>
       </div>

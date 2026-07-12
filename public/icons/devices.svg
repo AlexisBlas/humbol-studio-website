@@ -1,6 +1,22 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <rect x="2" y="5" width="14" height="10" rx="2" stroke="#523EE7" stroke-width="2"/>
-  <path d="M8 19h2" stroke="#523EE7" stroke-width="2" stroke-linecap="round"/>
-  <rect x="17" y="7" width="5" height="10" rx="1" stroke="#523EE7" stroke-width="2"/>
-  <path d="M19.5 17h.01" stroke="#523EE7" stroke-width="2" stroke-linecap="round"/>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="dev-a" x1="3" y1="6" x2="20" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4ADED7"/>
+      <stop offset="1" stop-color="#523EE7"/>
+    </linearGradient>
+    <linearGradient id="dev-b" x1="18" y1="5" x2="29" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA99DB"/>
+      <stop offset="1" stop-color="#FDF500"/>
+    </linearGradient>
+  </defs>
+  <!-- Faceted desktop slab -->
+  <path d="M3.5 8.5L18.5 5.5V21.5L3.5 24.5V8.5Z" fill="url(#dev-a)" fill-opacity="0.9"/>
+  <path d="M3.5 8.5L18.5 5.5L18.5 21.5L3.5 8.5Z" fill="#ffffff" fill-opacity="0.28"/>
+  <path d="M3.5 24.5L18.5 21.5L3.5 8.5V24.5Z" fill="#311C95" fill-opacity="0.35"/>
+  <path d="M7 12.2L15 10.6V16.8L7 18.4V12.2Z" fill="#FDF500" fill-opacity="0.55"/>
+  <!-- Faceted mobile shard -->
+  <path d="M20 7L28.5 9.2V23.8L20 26V7Z" fill="url(#dev-b)" fill-opacity="0.92"/>
+  <path d="M20 7L28.5 9.2L28.5 23.8L20 7Z" fill="#ffffff" fill-opacity="0.32"/>
+  <path d="M20 26L28.5 23.8L20 7V26Z" fill="#523EE7" fill-opacity="0.28"/>
+  <path d="M22.2 11.5L26.2 12.5V18.2L22.2 19.2V11.5Z" fill="#4ADED7" fill-opacity="0.7"/>
 </svg>

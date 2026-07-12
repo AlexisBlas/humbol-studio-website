@@ -1,4 +1,21 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <circle cx="12" cy="12" r="10" stroke="#523EE7" stroke-width="2"/>
-  <path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z" stroke="#523EE7" stroke-width="2" stroke-linejoin="round"/>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="ux-a" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4ADED7"/>
+      <stop offset="0.55" stop-color="#523EE7"/>
+      <stop offset="1" stop-color="#FA99DB"/>
+    </linearGradient>
+    <linearGradient id="ux-b" x1="16" y1="8" x2="16" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDF500" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#4ADED7" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <!-- Faceted octahedron / discovery crystal -->
+  <path d="M16 3.5L27 16L16 28.5L5 16L16 3.5Z" fill="url(#ux-a)" fill-opacity="0.22"/>
+  <path d="M16 3.5L27 16L16 16.8L16 3.5Z" fill="#4ADED7" fill-opacity="0.55"/>
+  <path d="M16 3.5L5 16L16 16.8L16 3.5Z" fill="#523EE7" fill-opacity="0.7"/>
+  <path d="M16 28.5L27 16L16 16.8L16 28.5Z" fill="#FA99DB" fill-opacity="0.65"/>
+  <path d="M16 28.5L5 16L16 16.8L16 28.5Z" fill="#311C95" fill-opacity="0.55"/>
+  <path d="M16 8.5L21.2 16L16 23.5L10.8 16L16 8.5Z" fill="url(#ux-b)" fill-opacity="0.85"/>
+  <path d="M16 3.5L27 16L16 28.5L5 16L16 3.5Z" stroke="#523EE7" stroke-opacity="0.35" stroke-width="0.75" stroke-linejoin="round"/>
 </svg>

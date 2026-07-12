@@ -1,6 +1,29 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <rect x="3" y="3" width="8" height="8" rx="1.5" stroke="#523EE7" stroke-width="2"/>
-  <rect x="13" y="3" width="8" height="5" rx="1.5" stroke="#523EE7" stroke-width="2"/>
-  <rect x="13" y="10" width="8" height="11" rx="1.5" stroke="#523EE7" stroke-width="2"/>
-  <rect x="3" y="13" width="8" height="8" rx="1.5" stroke="#523EE7" stroke-width="2"/>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="saas-a" x1="3" y1="3" x2="15" y2="15" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4ADED7"/>
+      <stop offset="1" stop-color="#523EE7"/>
+    </linearGradient>
+    <linearGradient id="saas-b" x1="17" y1="3" x2="29" y2="12" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDF500"/>
+      <stop offset="1" stop-color="#FA99DB"/>
+    </linearGradient>
+    <linearGradient id="saas-c" x1="17" y1="14" x2="29" y2="29" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA99DB"/>
+      <stop offset="1" stop-color="#523EE7"/>
+    </linearGradient>
+    <linearGradient id="saas-d" x1="3" y1="17" x2="15" y2="29" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#523EE7"/>
+      <stop offset="1" stop-color="#4ADED7"/>
+    </linearGradient>
+  </defs>
+  <!-- Faceted dashboard crystals -->
+  <path d="M3.5 4L15 3.5V14.5L3.5 15V4Z" fill="url(#saas-a)"/>
+  <path d="M3.5 4L15 3.5L15 14.5L3.5 4Z" fill="#ffffff" fill-opacity="0.3"/>
+  <path d="M17 3.5L28.5 5V12.5L17 14.5V3.5Z" fill="url(#saas-b)"/>
+  <path d="M17 3.5L28.5 5L28.5 12.5L17 3.5Z" fill="#ffffff" fill-opacity="0.35"/>
+  <path d="M17 16.5L28.5 14.5V27L17 28.5V16.5Z" fill="url(#saas-c)"/>
+  <path d="M17 16.5L28.5 14.5L28.5 27L17 16.5Z" fill="#ffffff" fill-opacity="0.22"/>
+  <path d="M3.5 17L15 16.5V28.5L3.5 28V17Z" fill="url(#saas-d)"/>
+  <path d="M3.5 17L15 16.5L15 28.5L3.5 17Z" fill="#ffffff" fill-opacity="0.25"/>
 </svg>
