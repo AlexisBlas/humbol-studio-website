@@ -16,7 +16,7 @@ export function About() {
           direct partnerships.
         </p>
         <p>
-          humbol is a solo studio built on a simple tension: go deep before you
+          humbol is a design studio built on a simple tension: go deep before you
           conclude, then commit to a clear position. We work at the
           intersection of research, systems thinking, and craft — for founders
           and organizations where design can actually make a difference.
