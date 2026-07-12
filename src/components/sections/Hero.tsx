@@ -83,18 +83,20 @@ function HeroLetter({
 
 export function Hero() {
   const pinRef = useRef<HTMLDivElement>(null);
-  const [copyIntroDone, setCopyIntroDone] = useState(false);
   /* Progress 0→1 across the pinned scrub (1 viewport of scroll). */
   const { scrollYProgress } = useScroll({
     target: pinRef,
     offset: ["start start", "end end"],
   });
 
-  /* Hide tagline + CTA early in the scrub so they clear before the sphere morph peaks. */
-  const copyOpacity = useTransform(scrollYProgress, [0, 0.22], [1, 0]);
-  const copyY = useTransform(scrollYProgress, [0, 0.22], [0, 28]);
+  /* Always scroll-driven — never share opacity with intro animate (that blocks the fade). */
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);
+  const copyY = useTransform(scrollYProgress, [0, 0.18], [0, 32]);
+  const copyVisibility = useTransform(copyOpacity, (v) =>
+    v <= 0.02 ? "hidden" : "visible",
+  );
   const copyPointerEvents = useTransform(copyOpacity, (v) =>
-    v < 0.05 ? "none" : "auto",
+    v <= 0.02 ? "none" : "auto",
   );
 
   return (
@@ -130,40 +132,42 @@ export function Hero() {
           </div>
           <motion.div
             className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-8 px-margin-mobile pb-12 md:flex-row md:items-end md:justify-between md:px-stack-lg"
-            style={
-              copyIntroDone
-                ? {
-                    opacity: copyOpacity,
-                    y: copyY,
-                    pointerEvents: copyPointerEvents,
-                  }
-                : undefined
-            }
-            initial={{ opacity: 0, y: 32 }}
-            animate={copyIntroDone ? false : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 1.05, ease: "easeOut" }}
-            onAnimationComplete={() => setCopyIntroDone(true)}
+            style={{
+              opacity: copyOpacity,
+              y: copyY,
+              visibility: copyVisibility,
+              pointerEvents: copyPointerEvents,
+            }}
           >
-            <div className="flex flex-col gap-6 md:gap-8">
+            <motion.div
+              className="flex flex-col gap-6 md:gap-8"
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 1.05, ease: "easeOut" }}
+            >
               <motion.div
-                className="h-[6px] rounded-full bg-iron/60 mix-blend-plus-lighter"
-                initial={{ width: 0 }}
-                animate={{ width: 117 }}
-                transition={{ duration: 0.4, delay: 0.9, ease: "easeInOut" }}
+                className="h-[6px] origin-left rounded-full bg-gradient-to-r from-[#4ADED7] via-[#523EE7] to-[#FA99DB] shadow-[0_0_12px_rgba(74,222,215,0.45)]"
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={{ duration: 0.45, delay: 0.9, ease: "easeOut" }}
+                style={{ width: 117 }}
               />
               <p className="text-lg font-bold leading-[1.2] tracking-[-0.01em] text-iron md:text-[23px]">
                 We design what people remember.
                 <br />
                 We build what teams depend on.
               </p>
-            </div>
-            <a
+            </motion.div>
+            <motion.a
               href="#services"
               className="group flex items-center gap-3 text-base font-bold text-iron"
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 1.15, ease: "easeOut" }}
             >
               See what we do
               <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
-            </a>
+            </motion.a>
           </motion.div>
         </section>
       </div>
