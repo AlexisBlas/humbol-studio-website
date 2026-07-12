@@ -10,6 +10,9 @@ const brands = [
   { name: "College Board", src: "/brands/college_board.svg" },
   { name: "Columbia Central University", src: "/brands/columbia_central_university.svg" },
   { name: "Inbify", src: "/brands/inbify.svg" },
+  { name: "Hyp3r", src: "/brands/hyp3r.svg" },
+  { name: "AI Squared", src: "/brands/aisquared.svg" },
+  { name: "Watchdog", src: "/brands/watchdog.svg" },
   { name: "UVA", src: "/brands/uva.svg" },
   { name: "Caribbean Cinemas", src: "/brands/caribbean_cinemas.svg" },
 ] as const;
