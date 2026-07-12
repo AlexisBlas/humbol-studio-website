@@ -12,7 +12,10 @@ type SectionRowProps = {
 /** Editorial two-column layout: label rail on the left, content on the right. */
 export function SectionRow({ id, label, children, className }: SectionRowProps) {
   return (
-    <section id={id} className={cn("w-full", className)}>
+    <section
+      id={id}
+      className={cn("w-full scroll-mt-16", className)}
+    >
       <Container className="grid grid-cols-1 gap-gutter pb-20 md:grid-cols-12">
         <div className="md:col-span-4">
           <SectionLabel>{label}</SectionLabel>

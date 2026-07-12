@@ -51,7 +51,7 @@ export function SiteHeader() {
       )}
     >
       <div className="flex h-16 w-full items-center justify-between px-margin-mobile md:px-stack-lg">
-        <a href="#" aria-label="humbol — home" onClick={close}>
+        <a href="/" aria-label="humbol — home" onClick={close}>
           <Logo priority />
         </a>
 

@@ -227,6 +227,7 @@ type ThreeNS = {
     canvas: HTMLCanvasElement;
     antialias: boolean;
     alpha: boolean;
+    powerPreference?: "default" | "high-performance" | "low-power";
   }) => ThreeRenderer;
   IcosahedronGeometry: new (radius: number, detail: number) => ThreeGeometry;
   ShaderMaterial: new (params: ThreeShaderParams) => ThreeMaterial;
@@ -287,6 +288,10 @@ function loadThree(): Promise<ThreeNS> {
       'script[data-hero-webgl="three"]',
     );
     if (existing) {
+      if (window.THREE) {
+        resolve(window.THREE);
+        return;
+      }
       existing.addEventListener("load", () => resolve(window.THREE!));
       existing.addEventListener("error", () =>
         reject(new Error("Three.js failed to load")),
@@ -328,6 +333,10 @@ export function HeroWebGL() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
 
     let disposed = false;
     let raf = 0;

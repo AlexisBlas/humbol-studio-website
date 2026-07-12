@@ -112,6 +112,7 @@ export function Hero() {
 
   /* Warm Three.js while letters animate in. */
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     preloadHeroThree();
   }, []);
 
@@ -153,7 +154,15 @@ export function Hero() {
                   exitProgress={scrollYProgress}
                   onIntroComplete={
                     i === letters.length - 1
-                      ? () => setSphereReady(true)
+                      ? () => {
+                          if (
+                            !window.matchMedia(
+                              "(prefers-reduced-motion: reduce)",
+                            ).matches
+                          ) {
+                            setSphereReady(true);
+                          }
+                        }
                       : undefined
                   }
                 />

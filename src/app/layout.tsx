@@ -10,6 +10,7 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://humbol.studio"),
   icons: {
     icon: "/favicon.svg",
   },
