@@ -303,10 +303,23 @@ function loadThree(): Promise<ThreeNS> {
   });
 }
 
+/** Warm the Three.js CDN fetch before the sphere mounts. */
+export function preloadHeroThree() {
+  void loadThree().catch(() => {});
+}
+
 declare global {
   interface Window {
     THREE?: ThreeNS;
   }
+}
+
+function geometryDetail(): number {
+  return window.matchMedia("(max-width: 768px)").matches ? 12 : 16;
+}
+
+function pixelRatioCap(): number {
+  return window.matchMedia("(max-width: 768px)").matches ? 1 : 1.5;
 }
 
 export function HeroWebGL() {
@@ -319,6 +332,9 @@ export function HeroWebGL() {
     let disposed = false;
     let raf = 0;
     let renderer: ThreeRenderer | null = null;
+    let running = false;
+    let inView = true;
+    let pageVisible = !document.hidden;
 
     const mouse = { x: 0, y: 0 };
     const targetRot = { x: 0, y: 0 };
@@ -350,6 +366,7 @@ export function HeroWebGL() {
       if (!renderer) return;
       const w = window.innerWidth;
       const h = window.innerHeight;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, pixelRatioCap()));
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
@@ -358,12 +375,72 @@ export function HeroWebGL() {
     let camera: ThreeCamera;
     let material: ThreeMaterial;
     let mesh: ThreeMesh;
+    let clock: ThreeClock;
+    let scene: ThreeScene;
+    let observer: IntersectionObserver | null = null;
+
+    const canRun = () => !disposed && inView && pageVisible && !!renderer;
+
+    const startLoop = () => {
+      if (running || !canRun()) return;
+      running = true;
+
+      const tick = () => {
+        if (!canRun()) {
+          running = false;
+          return;
+        }
+        raf = requestAnimationFrame(tick);
+
+        const elapsed = clock.getElapsedTime();
+        material.uniforms.uTime.value = elapsed;
+
+        current.amplitude = lerpValue(current.amplitude, target.amplitude, LERP);
+        current.frequency = lerpValue(current.frequency, target.frequency, LERP);
+        current.speed = lerpValue(current.speed, target.speed, LERP);
+        current.colorBase = lerpColor(current.colorBase, target.colorBase, LERP);
+        current.colorGlow = lerpColor(current.colorGlow, target.colorGlow, LERP);
+        current.colorMid = lerpColor(current.colorMid, target.colorMid, LERP);
+
+        material.uniforms.uAmplitude.value = current.amplitude;
+        material.uniforms.uFrequency.value = current.frequency;
+        material.uniforms.uSpeed.value = current.speed;
+        (material.uniforms.uColorBase.value as ThreeVector3).set(
+          ...current.colorBase,
+        );
+        (material.uniforms.uColorGlow.value as ThreeVector3).set(
+          ...current.colorGlow,
+        );
+        (material.uniforms.uColorMid.value as ThreeVector3).set(
+          ...current.colorMid,
+        );
+
+        currentRot.x = lerpValue(currentRot.x, targetRot.x, LERP);
+        currentRot.y = lerpValue(currentRot.y, targetRot.y, LERP);
+        mesh.rotation.x = currentRot.x;
+        mesh.rotation.y = currentRot.y + elapsed * 0.12;
+        mesh.rotation.z = elapsed * 0.04;
+
+        renderer!.render(scene, camera);
+      };
+
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onVisibility = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible) startLoop();
+      else {
+        cancelAnimationFrame(raf);
+        running = false;
+      }
+    };
 
     loadThree()
       .then((THREE) => {
         if (disposed) return;
 
-        const scene = new THREE.Scene();
+        scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(
           45,
           window.innerWidth / window.innerHeight,
@@ -372,16 +449,18 @@ export function HeroWebGL() {
         );
         camera.position.set(0, 0, 5.2);
 
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
         renderer = new THREE.WebGLRenderer({
           canvas,
-          antialias: true,
+          antialias: !isMobile,
           alpha: true,
+          powerPreference: "high-performance",
         });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, pixelRatioCap()));
         renderer.setSize(window.innerWidth, window.innerHeight, false);
         renderer.setClearColor(0x000000, 0);
 
-        const geometry = new THREE.IcosahedronGeometry(1.6, 32);
+        const geometry = new THREE.IcosahedronGeometry(1.6, geometryDetail());
         material = new THREE.ShaderMaterial({
           uniforms: {
             uTime: { value: 0 },
@@ -401,51 +480,27 @@ export function HeroWebGL() {
 
         mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
+        clock = new THREE.Clock();
+
+        observer = new IntersectionObserver(
+          ([entry]) => {
+            inView = entry.isIntersecting && entry.intersectionRatio > 0;
+            if (inView) startLoop();
+            else {
+              cancelAnimationFrame(raf);
+              running = false;
+            }
+          },
+          { threshold: [0, 0.01] },
+        );
+        observer.observe(canvas);
 
         window.addEventListener("mousemove", onMouseMove, { passive: true });
         window.addEventListener("scroll", onScroll, { passive: true });
         window.addEventListener("resize", onResize, { passive: true });
+        document.addEventListener("visibilitychange", onVisibility);
         onScroll();
-
-        const clock = new THREE.Clock();
-
-        const tick = () => {
-          if (disposed) return;
-          raf = requestAnimationFrame(tick);
-
-          const elapsed = clock.getElapsedTime();
-          material.uniforms.uTime.value = elapsed;
-
-          current.amplitude = lerpValue(current.amplitude, target.amplitude, LERP);
-          current.frequency = lerpValue(current.frequency, target.frequency, LERP);
-          current.speed = lerpValue(current.speed, target.speed, LERP);
-          current.colorBase = lerpColor(current.colorBase, target.colorBase, LERP);
-          current.colorGlow = lerpColor(current.colorGlow, target.colorGlow, LERP);
-          current.colorMid = lerpColor(current.colorMid, target.colorMid, LERP);
-
-          material.uniforms.uAmplitude.value = current.amplitude;
-          material.uniforms.uFrequency.value = current.frequency;
-          material.uniforms.uSpeed.value = current.speed;
-          (material.uniforms.uColorBase.value as ThreeVector3).set(
-            ...current.colorBase,
-          );
-          (material.uniforms.uColorGlow.value as ThreeVector3).set(
-            ...current.colorGlow,
-          );
-          (material.uniforms.uColorMid.value as ThreeVector3).set(
-            ...current.colorMid,
-          );
-
-          currentRot.x = lerpValue(currentRot.x, targetRot.x, LERP);
-          currentRot.y = lerpValue(currentRot.y, targetRot.y, LERP);
-          mesh.rotation.x = currentRot.x;
-          mesh.rotation.y = currentRot.y + elapsed * 0.12;
-          mesh.rotation.z = elapsed * 0.04;
-
-          renderer!.render(scene, camera);
-        };
-
-        tick();
+        startLoop();
       })
       .catch((err) => {
         console.error("[HeroWebGL]", err);
@@ -453,10 +508,13 @@ export function HeroWebGL() {
 
     return () => {
       disposed = true;
+      running = false;
       cancelAnimationFrame(raf);
+      observer?.disconnect();
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibility);
       if (renderer) {
         renderer.dispose();
         mesh?.geometry.dispose();

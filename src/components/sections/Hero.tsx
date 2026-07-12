@@ -1,6 +1,9 @@
 "use client";
 
-import { HeroWebGL } from "@/components/sections/HeroWebGL";
+import {
+  HeroWebGL,
+  preloadHeroThree,
+} from "@/components/sections/HeroWebGL";
 import { HeroMeshBackground } from "@/components/sections/HeroMeshBackground";
 import Image from "next/image";
 import {
@@ -10,7 +13,7 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "@/components/ui/ArrowRight";
 import type { CSSProperties } from "react";
 
@@ -35,10 +38,12 @@ function HeroLetter({
   letter,
   index,
   exitProgress,
+  onIntroComplete,
 }: {
   letter: Letter;
   index: number;
   exitProgress: MotionValue<number>;
+  onIntroComplete?: () => void;
 }) {
   const [introDone, setIntroDone] = useState(false);
   const letterOpacity = 0.45;
@@ -69,12 +74,17 @@ function HeroLetter({
         ease: overshoot,
         opacity: { duration: 0.3, delay: index * 0.12, ease: "easeOut" },
       }}
-      onAnimationComplete={() => setIntroDone(true)}
+      onAnimationComplete={() => {
+        if (introDone) return;
+        setIntroDone(true);
+        onIntroComplete?.();
+      }}
     >
       <Image
         src={letter.src}
         alt=""
         fill
+        priority={index < 2}
         className="object-contain brightness-0 invert"
       />
     </motion.div>
@@ -83,6 +93,7 @@ function HeroLetter({
 
 export function Hero() {
   const pinRef = useRef<HTMLDivElement>(null);
+  const [sphereReady, setSphereReady] = useState(false);
   /* Progress 0→1 across the pinned scrub (1 viewport of scroll). */
   const { scrollYProgress } = useScroll({
     target: pinRef,
@@ -99,13 +110,27 @@ export function Hero() {
     v <= 0.02 ? "none" : "auto",
   );
 
+  /* Warm Three.js while letters animate in. */
+  useEffect(() => {
+    preloadHeroThree();
+  }, []);
+
   return (
     <MotionConfig reducedMotion="user">
       {/* 100vh sticky panel + 100vh scrub distance while pinned */}
       <div ref={pinRef} id="hero-pin" className="relative h-[200vh]">
         <section className="sticky top-0 isolate flex h-svh w-full flex-col overflow-hidden rounded-b-[32px]">
           <HeroMeshBackground />
-          <HeroWebGL />
+          {sphereReady ? (
+            <motion.div
+              className="pointer-events-none absolute inset-0 z-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <HeroWebGL />
+            </motion.div>
+          ) : null}
           {/* Soft fade into the page background / About */}
           <div
             aria-hidden="true"
@@ -126,6 +151,11 @@ export function Hero() {
                   letter={letter}
                   index={i}
                   exitProgress={scrollYProgress}
+                  onIntroComplete={
+                    i === letters.length - 1
+                      ? () => setSphereReady(true)
+                      : undefined
+                  }
                 />
               ))}
             </div>
