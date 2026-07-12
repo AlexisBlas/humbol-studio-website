@@ -13,7 +13,7 @@ export function SiteFooter() {
           <Logo className="h-6" />
           <p className="text-sm leading-5 text-iron">Shape that matters.</p>
           <p className="text-xs leading-5 text-iron-slate">
-            hello@humbol.studio
+            humbol.studio@gmail.com
           </p>
         </div>
         <nav aria-label="Footer navigation">
