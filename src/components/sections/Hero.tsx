@@ -138,7 +138,7 @@ export function Hero() {
             className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[28%] bg-gradient-to-b from-transparent via-bg-primary/50 to-bg-primary"
           />
           <h1 className="sr-only">
-            humbol — I design what people remember. I build what teams depend
+            humbol — we design what people remember. We build what teams depend
             on.
           </h1>
           <div
@@ -192,9 +192,9 @@ export function Hero() {
                 style={{ width: 117 }}
               />
               <p className="text-lg font-bold leading-[1.2] tracking-[-0.01em] text-iron md:text-[23px]">
-                I design what people remember.
+                We design what people remember.
                 <br />
-                I build what teams depend on.
+                We build what teams depend on.
               </p>
             </motion.div>
             <motion.a
@@ -204,7 +204,7 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 1.15, ease: "easeOut" }}
             >
-              See what I do
+              See what we do
               <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
             </motion.a>
           </motion.div>

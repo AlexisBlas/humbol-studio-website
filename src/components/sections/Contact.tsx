@@ -15,9 +15,10 @@ export function Contact() {
           Let&apos;s find out if we&apos;re a fit.
         </p>
         <p className="max-w-[672px] pt-2 text-body-md leading-6 text-slate">
-          I take on a small number of projects at a time — so every engagement
-          gets real focus. If you&apos;re building something you believe in,
-          I&apos;d like to hear about it.
+          humbol is one designer, by design. I take on a small number of
+          projects at a time — so every engagement gets real focus. If
+          you&apos;re building something you believe in, I&apos;d like to hear
+          about it.
         </p>
         <div className="pt-6">
           <a

@@ -17,9 +17,9 @@ export function About() {
         </p>
         <p>
           humbol is a design studio built on a simple tension: go deep before you
-          conclude, then commit to a clear position. I work at the intersection
-          of research, systems thinking, and craft — for founders and
-          organizations where design can actually make a difference.
+          conclude, then commit to a clear position. We work at the
+          intersection of research, systems thinking, and craft — for founders
+          and organizations where design can actually make a difference.
         </p>
         <p>
           From SaaS products and consumer experiences to design systems for

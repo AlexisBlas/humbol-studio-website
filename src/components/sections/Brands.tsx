@@ -23,7 +23,7 @@ export function Brands() {
   return (
     <SectionRow id="brands" label="Clients & brands">
       <h2 className="max-w-[910px] text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
-        Brands I&apos;ve helped shape — through studios, agencies, and direct
+        Brands we&apos;ve helped shape — through studios, agencies, and direct
         partnerships.
       </h2>
       <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-stone shadow-[0px_1px_3px_rgba(28,25,23,0.06),0px_1px_2px_rgba(28,25,23,0.04)] md:grid-cols-5">

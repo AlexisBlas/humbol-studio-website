@@ -15,7 +15,7 @@ export function SelectedWork() {
             Work that earned its place here.
           </h2>
           <p className="max-w-[815px] text-[19px] leading-[1.5] text-iron">
-            A few projects that tell the story better than I can.
+            A few projects that tell the story better than we can.
           </p>
         </div>
       </Container>
