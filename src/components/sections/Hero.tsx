@@ -127,7 +127,7 @@ export function Hero() {
               className="pointer-events-none absolute inset-0 z-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
             >
               <HeroWebGL />
             </motion.div>

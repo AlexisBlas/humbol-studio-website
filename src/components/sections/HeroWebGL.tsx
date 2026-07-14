@@ -261,6 +261,8 @@ type ThreeMaterial = {
 };
 type ThreeMesh = {
   rotation: { x: number; y: number; z: number };
+  position: { x: number; y: number; z: number };
+  scale: { setScalar: (s: number) => void };
   geometry: ThreeGeometry;
 };
 type ThreeScene = { add: (obj: ThreeMesh) => void };
@@ -276,7 +278,9 @@ type ThreeRenderer = {
   render: (scene: ThreeScene, camera: ThreeCamera) => void;
   dispose: () => void;
 };
-type ThreeClock = { getElapsedTime: () => number };
+type ThreeClock = {
+  getElapsedTime: () => number;
+};
 
 function loadThree(): Promise<ThreeNS> {
   return new Promise((resolve, reject) => {
@@ -358,6 +362,24 @@ export function HeroWebGL() {
       colorMid: hexToVec3(PRESETS[0].colorMid),
     };
 
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    /* Fly in from deep Z — ease to rest, no overshoot. */
+    const intro = {
+      active: !reduceMotion,
+      z: -16,
+      zVel: 0,
+      scale: 0.55,
+      scaleVel: 0,
+      targetZ: 0,
+      targetScale: 1,
+      stiffness: 95,
+      damping: 18,
+      scaleStiffness: 100,
+      scaleDamping: 19,
+    };
+
     let target = morphFromPinScrub();
 
     const onMouseMove = (e: MouseEvent) => {
@@ -387,6 +409,7 @@ export function HeroWebGL() {
     let clock: ThreeClock;
     let scene: ThreeScene;
     let observer: IntersectionObserver | null = null;
+    let lastElapsed = 0;
 
     const canRun = () => !disposed && inView && pageVisible && !!renderer;
 
@@ -402,6 +425,8 @@ export function HeroWebGL() {
         raf = requestAnimationFrame(tick);
 
         const elapsed = clock.getElapsedTime();
+        const dt = Math.min(Math.max(elapsed - lastElapsed, 0), 0.05);
+        lastElapsed = elapsed;
         material.uniforms.uTime.value = elapsed;
 
         current.amplitude = lerpValue(current.amplitude, target.amplitude, LERP);
@@ -429,6 +454,35 @@ export function HeroWebGL() {
         mesh.rotation.x = currentRot.x;
         mesh.rotation.y = currentRot.y + elapsed * 0.12;
         mesh.rotation.z = elapsed * 0.04;
+
+        if (intro.active) {
+          const dtSafe = dt || 1 / 60;
+          const { stiffness, damping, scaleStiffness, scaleDamping } = intro;
+
+          const dz = intro.targetZ - intro.z;
+          intro.zVel += (dz * stiffness - intro.zVel * damping) * dtSafe;
+          intro.z += intro.zVel * dtSafe;
+
+          const ds = intro.targetScale - intro.scale;
+          intro.scaleVel +=
+            (ds * scaleStiffness - intro.scaleVel * scaleDamping) * dtSafe;
+          intro.scale += intro.scaleVel * dtSafe;
+          intro.scale = Math.max(0.01, intro.scale);
+
+          mesh.position.z = intro.z;
+          mesh.scale.setScalar(intro.scale);
+
+          if (
+            Math.abs(dz) < 0.002 &&
+            Math.abs(intro.zVel) < 0.002 &&
+            Math.abs(ds) < 0.002 &&
+            Math.abs(intro.scaleVel) < 0.002
+          ) {
+            intro.active = false;
+            mesh.position.z = intro.targetZ;
+            mesh.scale.setScalar(intro.targetScale);
+          }
+        }
 
         renderer!.render(scene, camera);
       };
@@ -488,6 +542,10 @@ export function HeroWebGL() {
         material.extensions.derivatives = true;
 
         mesh = new THREE.Mesh(geometry, material);
+        if (intro.active) {
+          mesh.position.z = intro.z;
+          mesh.scale.setScalar(intro.scale);
+        }
         scene.add(mesh);
         clock = new THREE.Clock();
 
