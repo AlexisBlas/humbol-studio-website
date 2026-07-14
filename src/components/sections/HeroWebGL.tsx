@@ -365,7 +365,7 @@ export function HeroWebGL() {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    /* Fly in from deep Z — ease to rest, no overshoot. */
+    /* Fly in from deep Z — ease to rest, no overshoot. Spin is tied to depth progress. */
     const intro = {
       active: !reduceMotion,
       z: -16,
@@ -374,10 +374,15 @@ export function HeroWebGL() {
       scaleVel: 0,
       targetZ: 0,
       targetScale: 1,
+      startZ: -16,
       stiffness: 95,
       damping: 18,
       scaleStiffness: 100,
       scaleDamping: 19,
+      /** Accumulated intro yaw — kept after settle so rotation doesn’t jump. */
+      spinAccum: 0,
+      /** Full revolutions during the approach. */
+      spinTurns: 4.5,
     };
 
     let target = morphFromPinScrub();
@@ -451,9 +456,6 @@ export function HeroWebGL() {
 
         currentRot.x = lerpValue(currentRot.x, targetRot.x, LERP);
         currentRot.y = lerpValue(currentRot.y, targetRot.y, LERP);
-        mesh.rotation.x = currentRot.x;
-        mesh.rotation.y = currentRot.y + elapsed * 0.12;
-        mesh.rotation.z = elapsed * 0.04;
 
         if (intro.active) {
           const dtSafe = dt || 1 / 60;
@@ -469,6 +471,12 @@ export function HeroWebGL() {
           intro.scale += intro.scaleVel * dtSafe;
           intro.scale = Math.max(0.01, intro.scale);
 
+          /* Map depth progress → full intro turns so spin stays visible on a fast approach. */
+          const travel = intro.targetZ - intro.startZ;
+          const raw = travel === 0 ? 1 : (intro.z - intro.startZ) / travel;
+          const progress = Math.min(1, Math.max(0, raw));
+          intro.spinAccum = progress * Math.PI * 2 * intro.spinTurns;
+
           mesh.position.z = intro.z;
           mesh.scale.setScalar(intro.scale);
 
@@ -481,8 +489,13 @@ export function HeroWebGL() {
             intro.active = false;
             mesh.position.z = intro.targetZ;
             mesh.scale.setScalar(intro.targetScale);
+            intro.spinAccum = Math.PI * 2 * intro.spinTurns;
           }
         }
+
+        mesh.rotation.x = currentRot.x;
+        mesh.rotation.y = currentRot.y + elapsed * 0.12 + intro.spinAccum;
+        mesh.rotation.z = elapsed * 0.04 + intro.spinAccum * 0.15;
 
         renderer!.render(scene, camera);
       };
