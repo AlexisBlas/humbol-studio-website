@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import {
+  bindSmoothScrollHistory,
   bindSmoothScrollInterrupt,
   handleSmoothNavClick,
 } from "@/lib/smooth-scroll";
@@ -15,10 +16,12 @@ export function SmoothScroll() {
 
     document.addEventListener("click", onClick, true);
     const unbindInterrupt = bindSmoothScrollInterrupt();
+    const unbindHistory = bindSmoothScrollHistory();
 
     return () => {
       document.removeEventListener("click", onClick, true);
       unbindInterrupt();
+      unbindHistory();
     };
   }, []);
 

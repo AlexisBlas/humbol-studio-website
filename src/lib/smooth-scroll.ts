@@ -12,6 +12,11 @@ function prefersReducedMotion() {
 
 let rafId = 0;
 
+/** Force instant jumps so CSS `scroll-behavior: smooth` cannot fight the rAF ease. */
+function scrollInstant(top: number) {
+  window.scrollTo({ top, left: 0, behavior: "instant" });
+}
+
 function cancelScroll() {
   if (rafId) {
     cancelAnimationFrame(rafId);
@@ -31,7 +36,7 @@ function animateScrollTo(targetY: number) {
     const heroEnd = heroPin.offsetTop + heroPin.offsetHeight;
     const pastHero = Math.max(0, heroEnd - window.innerHeight);
     if (from < pastHero - 8 && targetY > pastHero) {
-      window.scrollTo(0, pastHero);
+      scrollInstant(pastHero);
       from = pastHero;
     }
   }
@@ -39,12 +44,12 @@ function animateScrollTo(targetY: number) {
   const diff = targetY - from;
 
   if (Math.abs(diff) < 1) {
-    window.scrollTo(0, targetY);
+    scrollInstant(targetY);
     return;
   }
 
   if (prefersReducedMotion()) {
-    window.scrollTo(0, targetY);
+    scrollInstant(targetY);
     return;
   }
 
@@ -54,7 +59,7 @@ function animateScrollTo(targetY: number) {
 
   const frame = (now: number) => {
     const t = Math.min(1, (now - start) / duration);
-    window.scrollTo(0, from + diff * easeOutCubic(t));
+    scrollInstant(from + diff * easeOutCubic(t));
     if (t < 1) {
       rafId = requestAnimationFrame(frame);
     } else {
@@ -70,19 +75,29 @@ function targetYForElement(el: HTMLElement) {
   return Math.max(0, top - HEADER_OFFSET);
 }
 
+/** Push a new history entry only when the URL actually changes. */
+function setHistoryUrl(url: string) {
+  const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  if (current === url) {
+    history.replaceState(null, "", url);
+    return;
+  }
+  history.pushState(null, "", url);
+}
+
 /** Smoothly scroll to an element by id (without the #). */
 export function smoothScrollToId(id: string) {
   const el = document.getElementById(id);
   if (!el) return false;
   animateScrollTo(targetYForElement(el));
-  history.pushState(null, "", `#${id}`);
+  setHistoryUrl(`#${id}`);
   return true;
 }
 
 /** Smoothly scroll to the top of the page. */
 export function smoothScrollToTop() {
   animateScrollTo(0);
-  history.pushState(null, "", window.location.pathname);
+  setHistoryUrl(`${window.location.pathname}${window.location.search}`);
 }
 
 /**
@@ -119,6 +134,25 @@ export function handleSmoothNavClick(event: MouseEvent) {
   // Start immediately — don't wait for mobile menu exit animation.
   smoothScrollToId(id);
   return true;
+}
+
+/** Keep scroll position in sync when the user uses back/forward. */
+export function bindSmoothScrollHistory() {
+  const onPopState = () => {
+    const hash = window.location.hash;
+    if (hash.length > 1) {
+      const id = decodeURIComponent(hash.slice(1));
+      const el = document.getElementById(id);
+      if (el) {
+        animateScrollTo(targetYForElement(el));
+        return;
+      }
+    }
+    animateScrollTo(0);
+  };
+
+  window.addEventListener("popstate", onPopState);
+  return () => window.removeEventListener("popstate", onPopState);
 }
 
 export function bindSmoothScrollInterrupt() {
