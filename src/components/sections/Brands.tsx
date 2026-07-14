@@ -26,22 +26,29 @@ export function Brands() {
         Brands we&apos;ve helped shape — through studios, agencies, and direct
         partnerships.
       </h2>
-      <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-stone shadow-[0px_1px_3px_rgba(28,25,23,0.06),0px_1px_2px_rgba(28,25,23,0.04)] md:grid-cols-5">
-        {brands.map((brand) => (
-          <li
-            key={brand.name}
-            className="group flex h-[92px] items-center justify-center bg-surface px-5"
-          >
-            <Image
-              src={brand.src}
-              alt={brand.name}
-              width={140}
-              height={40}
-              className="h-5 w-auto max-w-[88%] object-contain opacity-70 transition-opacity duration-300 ease-out group-hover:opacity-100 md:h-6"
-            />
-          </li>
-        ))}
-      </ul>
+      <div className="flex flex-col gap-3">
+        <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-stone shadow-[0px_1px_3px_rgba(28,25,23,0.06),0px_1px_2px_rgba(28,25,23,0.04)] md:grid-cols-5">
+          {brands.map((brand) => (
+            <li
+              key={brand.name}
+              className="group flex h-[92px] items-center justify-center bg-surface px-5"
+            >
+              <Image
+                src={brand.src}
+                alt={brand.name}
+                width={140}
+                height={40}
+                className="h-5 w-auto max-w-[88%] object-contain opacity-70 transition-opacity duration-300 ease-out group-hover:opacity-100 md:h-6"
+              />
+            </li>
+          ))}
+        </ul>
+        <p className="whitespace-nowrap text-[11px] leading-4 text-steel">
+          Logos are trademarks of their respective owners and are displayed
+          solely to identify products and organizations I&apos;ve contributed
+          to.
+        </p>
+      </div>
     </SectionRow>
   );
 }
