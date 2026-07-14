@@ -13,7 +13,7 @@ export const services: Service[] = [
     label: "UX & Product",
     icon: "/icons/compass.svg",
     description:
-      "We map the problem before we touch a screen. From discovery to a shipped product — designed with your team in mind, built to hold up under real use.",
+      "I map the problem before I touch a screen. From discovery to shipped product — built to hold up under real use.",
   },
   {
     id: "design-systems",
@@ -21,7 +21,7 @@ export const services: Service[] = [
     label: "Systems",
     icon: "/icons/layers.svg",
     description:
-      "Consistency at scale. We build component libraries, define design tokens, and write documentation that your team will actually open.",
+      "Consistency at scale. I build component libraries, define design tokens, and write documentation your team will actually open.",
   },
   {
     id: "web-mobile",
@@ -37,6 +37,6 @@ export const services: Service[] = [
     label: "SaaS",
     icon: "/icons/dashboard.svg",
     description:
-      "The surfaces where UX decisions have real business consequences — dashboards, onboarding, billing, permissions. We've designed these before. We know where things go wrong.",
+      "The surfaces where UX decisions have real business consequences — dashboards, onboarding, billing, permissions. I've designed these before. I know where things go wrong.",
   },
 ];

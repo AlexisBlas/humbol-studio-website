@@ -21,14 +21,14 @@ export function Contact() {
         </p>
         <div className="pt-6">
           <a
-            href="mailto:humbol.studio@gmail.com"
+            href="mailto:hello@humbol.studio"
             className="inline-flex items-center justify-center rounded-2xl bg-interactive px-6 py-3.5 text-base font-bold text-bg-primary transition-colors hover:bg-interactive-hover active:bg-interactive-pressed"
           >
             Start a conversation
           </a>
         </div>
         <p className="pt-2 text-label-caps font-medium text-slate">
-          humbol.studio@gmail.com · San Juan, Puerto Rico
+          hello@humbol.studio · San Juan, Puerto Rico
         </p>
       </div>
     </SectionRow>

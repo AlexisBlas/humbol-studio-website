@@ -61,7 +61,7 @@ export function SiteFooter() {
           <Logo className="h-6" />
           <p className="text-sm leading-5 text-iron">Shape that matters.</p>
           <p className="text-xs leading-5 text-iron-slate">
-            humbol.studio@gmail.com
+            hello@humbol.studio
           </p>
         </div>
         <div className="flex flex-col items-end gap-4">

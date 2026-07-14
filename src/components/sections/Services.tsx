@@ -4,7 +4,7 @@ import { ServiceCard } from "@/components/ui/ServiceCard";
 
 export function Services() {
   return (
-    <SectionRow id="services" label="What we do">
+    <SectionRow id="services" label="Services">
       <div className="flex flex-col gap-4">
         <h2 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
           Research-grounded.

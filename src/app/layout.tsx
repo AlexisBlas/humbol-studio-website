@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   },
   title: "humbol — Shape that matters.",
   description:
-    "humbol is a solo design studio. We partner with founders, startups, and mission-driven organizations to design products people actually use — and systems teams can actually build from.",
+    "humbol is a one-person design studio. I partner with founders, startups, and mission-driven organizations to design products people actually use — and systems teams can actually build from.",
   openGraph: {
     title: "humbol — Shape that matters.",
     description:
-      "humbol is a solo design studio. We partner with founders, startups, and mission-driven organizations to design products people actually use — and systems teams can actually build from.",
+      "humbol is a one-person design studio. I partner with founders, startups, and mission-driven organizations to design products people actually use — and systems teams can actually build from.",
     url: "https://humbol.studio",
     siteName: "humbol",
     locale: "en_US",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "humbol — Shape that matters.",
     description:
-      "humbol is a solo design studio. We partner with founders, startups, and mission-driven organizations to design products people actually use — and systems teams can actually build from.",
+      "humbol is a one-person design studio. I partner with founders, startups, and mission-driven organizations to design products people actually use — and systems teams can actually build from.",
   },
 };
 
