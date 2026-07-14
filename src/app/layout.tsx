@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import Script from "next/script";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
 const GA_MEASUREMENT_ID = "G-E5GGSL8RHY";
@@ -45,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${lato.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
+        <SmoothScroll />
         {children}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
