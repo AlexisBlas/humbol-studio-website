@@ -75,29 +75,56 @@ function targetYForElement(el: HTMLElement) {
   return Math.max(0, top - HEADER_OFFSET);
 }
 
-/** Push a new history entry only when the URL actually changes. */
-function setHistoryUrl(url: string) {
-  const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+type ScrollHistoryState = {
+  scrollY: number;
+};
+
+function isScrollHistoryState(state: unknown): state is ScrollHistoryState {
+  return (
+    !!state &&
+    typeof state === "object" &&
+    "scrollY" in state &&
+    typeof (state as ScrollHistoryState).scrollY === "number"
+  );
+}
+
+function currentUrl() {
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
+}
+
+/**
+ * Push a new history entry only when the URL changes.
+ * Stores scrollY on the entry we're leaving and the one we're entering
+ * so Back/Forward can restore position instead of forcing the top.
+ */
+function setHistoryUrl(url: string, nextScrollY: number) {
+  const current = currentUrl();
   if (current === url) {
-    history.replaceState(null, "", url);
+    history.replaceState({ scrollY: nextScrollY } satisfies ScrollHistoryState, "", url);
     return;
   }
-  history.pushState(null, "", url);
+  history.replaceState(
+    { scrollY: window.scrollY } satisfies ScrollHistoryState,
+    "",
+    current,
+  );
+  history.pushState({ scrollY: nextScrollY } satisfies ScrollHistoryState, "", url);
 }
 
 /** Smoothly scroll to an element by id (without the #). */
 export function smoothScrollToId(id: string) {
   const el = document.getElementById(id);
   if (!el) return false;
-  animateScrollTo(targetYForElement(el));
-  setHistoryUrl(`#${id}`);
+  const y = targetYForElement(el);
+  animateScrollTo(y);
+  setHistoryUrl(`#${id}`, y);
   return true;
 }
 
 /** Smoothly scroll to the top of the page. */
 export function smoothScrollToTop() {
   animateScrollTo(0);
-  setHistoryUrl(`${window.location.pathname}${window.location.search}`);
+  setHistoryUrl(`${window.location.pathname}${window.location.search}`, 0);
 }
 
 /**
@@ -138,7 +165,15 @@ export function handleSmoothNavClick(event: MouseEvent) {
 
 /** Keep scroll position in sync when the user uses back/forward. */
 export function bindSmoothScrollHistory() {
-  const onPopState = () => {
+  const previousRestoration = history.scrollRestoration;
+  history.scrollRestoration = "manual";
+
+  const onPopState = (event: PopStateEvent) => {
+    if (isScrollHistoryState(event.state)) {
+      animateScrollTo(event.state.scrollY);
+      return;
+    }
+
     const hash = window.location.hash;
     if (hash.length > 1) {
       const id = decodeURIComponent(hash.slice(1));
@@ -148,11 +183,15 @@ export function bindSmoothScrollHistory() {
         return;
       }
     }
-    animateScrollTo(0);
+
+    // No saved scroll and no hash — leave the browser alone.
   };
 
   window.addEventListener("popstate", onPopState);
-  return () => window.removeEventListener("popstate", onPopState);
+  return () => {
+    history.scrollRestoration = previousRestoration;
+    window.removeEventListener("popstate", onPopState);
+  };
 }
 
 export function bindSmoothScrollInterrupt() {
