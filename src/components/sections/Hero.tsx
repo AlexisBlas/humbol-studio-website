@@ -132,10 +132,10 @@ export function Hero() {
               <HeroWebGL />
             </motion.div>
           ) : null}
-          {/* Soft fade into the page background / About */}
+          {/* Soft fade into the page background / About — taller on mobile for tagline contrast */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[28%] bg-gradient-to-b from-transparent via-bg-primary/50 to-bg-primary"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[42%] bg-gradient-to-b from-transparent via-bg-primary/55 to-bg-primary md:h-[28%] md:via-bg-primary/50"
           />
           <h1 className="sr-only">
             humbol — we design what people remember. We build what teams depend

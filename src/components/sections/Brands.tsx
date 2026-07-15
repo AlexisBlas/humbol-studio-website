@@ -43,7 +43,7 @@ export function Brands() {
             </li>
           ))}
         </ul>
-        <p className="whitespace-nowrap text-[11px] leading-4 text-steel">
+        <p className="text-[11px] leading-4 text-steel md:whitespace-nowrap">
           Logos are trademarks of their respective owners and are displayed
           solely to identify products and organizations I&apos;ve contributed
           to.
