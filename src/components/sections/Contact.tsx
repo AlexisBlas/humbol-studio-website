@@ -23,7 +23,7 @@ export function Contact() {
         <div className="pt-6">
           <a
             href="mailto:hello@humbol.studio"
-            className="inline-flex items-center justify-center rounded-2xl bg-interactive px-6 py-3.5 text-base font-bold text-bg-primary transition-colors hover:bg-interactive-hover active:bg-interactive-pressed"
+            className="inline-flex items-center justify-center rounded-full bg-interactive px-6 py-3.5 text-base font-bold text-bg-primary transition-colors hover:bg-interactive-hover active:bg-interactive-pressed"
           >
             Start a conversation
           </a>

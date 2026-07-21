@@ -28,7 +28,7 @@ export function Button({
   type = "button",
 }: ButtonProps) {
   const styles = cn(
-    "inline-flex items-center justify-center rounded-default px-[18px] py-[10px] text-sm font-bold transition-colors",
+    "inline-flex items-center justify-center rounded-full px-[18px] py-[10px] text-sm font-bold transition-colors",
     variantStyles[variant],
     className,
   );
