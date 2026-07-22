@@ -15,10 +15,18 @@ export function Contact() {
           Let&apos;s find out if we&apos;re a fit.
         </p>
         <p className="max-w-[672px] pt-2 text-body-md leading-6 text-slate">
-          humbol is one designer, by design. I take on a small number of
-          projects at a time — so every engagement gets real focus. If
-          you&apos;re building something you believe in, I&apos;d like to hear
-          about it.
+          humbol is{" "}
+          <a
+            href="https://alexisblas.work"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold text-interactive underline decoration-interactive/30 underline-offset-2 transition-colors hover:text-interactive-hover hover:decoration-interactive-hover"
+          >
+            one designer
+          </a>
+          , by design. I take on a small number of projects at a time — so every
+          engagement gets real focus. If you&apos;re building something you
+          believe in, I&apos;d like to hear about it.
         </p>
         <div className="pt-6">
           <a
