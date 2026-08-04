@@ -3,13 +3,15 @@ import { SectionRow } from "@/components/ui/SectionRow";
 const projects = [
   {
     title: "Garaje",
-    tags: "Brand, Web Design, Automotive, Concept Design",
+    type: "Concept Design",
+    tags: "Brand, Web Design, Automotive",
     year: "2026",
     href: "https://alfa-romeo-fawn.vercel.app",
   },
   {
     title: "Sundae Physics",
-    tags: "Brand, Web Design, Motion, Concept Design",
+    type: "Concept Design",
+    tags: "Brand, Web Design, Motion",
     year: "2026",
     href: "https://sundae-physics.vercel.app",
   },
@@ -18,21 +20,23 @@ const projects = [
 export function Concepts() {
   return (
     <SectionRow id="projects" label="Projects">
-      <ul className="border-t border-stone">
+      <ul className="w-full border-t border-stone">
         {projects.map((project) => (
           <li key={project.href} className="border-b border-stone">
             <a
               href={project.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-wrap items-baseline gap-x-3 gap-y-1 py-8 transition-colors md:py-10"
+              className="group flex flex-col gap-2 py-8 transition-colors sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:py-10"
             >
-              <span className="text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-graphite transition-colors group-hover:text-interactive md:text-[33px]">
-                {project.title}
+              <span className="flex min-w-0 flex-col">
+                <span className="text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-graphite transition-colors group-hover:text-interactive md:text-[33px]">
+                  {project.title}
+                </span>
+                <span className="text-sm leading-5 text-iron">{project.type}</span>
               </span>
-              <span className="text-sm leading-5 text-iron">
-                {project.tags},{" "}
-                <span className="text-steel">{project.year}</span>
+              <span className="shrink-0 text-sm leading-5 text-iron sm:pb-0.5 sm:text-right">
+                {project.tags}, <span className="text-steel">{project.year}</span>
               </span>
             </a>
           </li>
