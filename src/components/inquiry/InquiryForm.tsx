@@ -227,7 +227,7 @@ export function InquiryForm() {
                 }
                 className="peer sr-only"
               />
-              <span className="mt-0.5 grid size-[22px] shrink-0 place-items-center rounded-full border-[1.5px] border-stone bg-surface text-transparent transition-colors duration-150 ease-out peer-checked:border-interactive peer-checked:bg-interactive peer-checked:text-accent">
+              <span className="mt-0.5 grid size-[22px] shrink-0 place-items-center rounded-[5px] border-[1.5px] border-stone bg-surface text-transparent transition-colors duration-150 ease-out peer-checked:border-interactive peer-checked:bg-interactive peer-checked:text-bg-primary">
                 <CheckMark />
               </span>
               <span className="flex min-w-0 flex-col gap-0.5">
