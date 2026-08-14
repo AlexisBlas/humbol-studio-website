@@ -152,13 +152,18 @@ export function handleSmoothNavClick(event: MouseEvent) {
     return true;
   }
 
-  if (!href.startsWith("#") || href === "#") return false;
+  const hashIndex = href.indexOf("#");
+  if (hashIndex === -1 || href === "#") return false;
 
-  const id = decodeURIComponent(href.slice(1));
-  if (!id || !document.getElementById(id)) return false;
+  const path = href.slice(0, hashIndex) || "/";
+  const id = decodeURIComponent(href.slice(hashIndex + 1));
+  const onHome = window.location.pathname === "/" || window.location.pathname === "";
+  const targetsHome = path === "/" || path === "";
+
+  if (!id || !targetsHome || !onHome) return false;
+  if (!document.getElementById(id)) return false;
 
   event.preventDefault();
-  // Start immediately — don't wait for mobile menu exit animation.
   smoothScrollToId(id);
   return true;
 }

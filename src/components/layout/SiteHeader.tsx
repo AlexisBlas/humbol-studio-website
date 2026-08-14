@@ -6,12 +6,16 @@ import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Contact", href: "/contact" },
 ];
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  solid?: boolean;
+};
+
+export function SiteHeader({ solid = false }: SiteHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuId = useId();
@@ -45,7 +49,7 @@ export function SiteHeader() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300",
-        scrolled || open
+        scrolled || open || solid
           ? "bg-white shadow-[0px_1px_3px_rgba(28,25,23,0.06),0px_1px_2px_rgba(28,25,23,0.04)]"
           : "bg-transparent",
       )}
@@ -140,7 +144,7 @@ export function SiteHeader() {
                 ))}
               </ul>
               <motion.a
-                href="#contact"
+                href="/contact"
                 onClick={close}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
