@@ -160,6 +160,12 @@ export function InquiryForm() {
         <p className="mt-4 max-w-[36ch] text-body-md leading-6 text-slate">
           We&apos;ll reply from hello@humbol.studio within two business days.
         </p>
+        <a
+          href="/"
+          className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-interactive px-6 text-base font-bold text-bg-primary transition-colors duration-150 ease-out hover:bg-interactive-hover active:scale-[0.99] active:bg-interactive-pressed"
+        >
+          Back to home
+        </a>
       </div>
     );
   }
