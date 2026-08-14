@@ -1,4 +1,4 @@
-export const FORMSPREE_FORM_ID = "FORM_ID";
+export const FORMSPREE_FORM_ID = "xppaloew";
 export const FORMSPREE_ENDPOINT = `https://formspree.io/f/${FORMSPREE_FORM_ID}`;
 
 export const projectTypes = [
