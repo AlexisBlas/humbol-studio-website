@@ -15,20 +15,20 @@ export default function ContactPage() {
   return (
     <>
       <SiteHeader solid />
-      <main className="flex-1 pt-28 pb-20 md:pt-32">
+      <main className="flex-1 pt-28 pb-20 md:pt-32 md:pb-24">
         <Container>
-          <div className="mx-auto max-w-[640px]">
-            <SectionLabel>Let&apos;s work together</SectionLabel>
-            <h1 className="mt-4 text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-graphite md:text-[40px]">
-              Let&apos;s shape something together.
-            </h1>
-            <p className="mt-4 max-w-[38ch] text-[19px] leading-[1.5] text-iron">
-              Tell us a little about your project. We read every message and
-              reply within two business days.
-            </p>
-            <div className="mt-10">
-              <InquiryForm />
+          <div className="mx-auto flex max-w-[640px] flex-col gap-12">
+            <div className="flex flex-col gap-4">
+              <SectionLabel>Let&apos;s work together</SectionLabel>
+              <h1 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
+                Let&apos;s shape something together.
+              </h1>
+              <p className="max-w-[40ch] text-[19px] leading-[1.5] text-iron">
+                Tell us a little about your project. We read every message and
+                reply within two business days.
+              </p>
             </div>
+            <InquiryForm />
           </div>
         </Container>
       </main>

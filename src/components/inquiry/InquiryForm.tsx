@@ -14,6 +14,22 @@ type FieldKey = "name" | "email" | "project" | "budget" | "message";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const fieldStack = "flex flex-col gap-4";
+const labelClass =
+  "text-label-caps font-bold uppercase tracking-[0.08em] text-slate";
+const helpClass = "text-sm leading-5 text-slate";
+const controlClass =
+  "w-full rounded-2xl border bg-bg-primary px-4 text-base text-graphite outline-none transition-[border-color,background-color] duration-150 ease-out placeholder:text-steel";
+const controlIdle =
+  "border-stone hover:border-pebble focus-visible:border-interactive";
+const controlError = "border-[#8B3A2A]";
+const cardClass =
+  "relative flex min-h-11 cursor-pointer items-start gap-3 rounded-2xl border border-stone bg-bg-primary px-4 py-4 transition-[border-color,background-color,transform] duration-150 ease-out hover:border-interactive/40 hover:bg-interactive-tint/30 has-[:checked]:border-interactive has-[:checked]:bg-interactive-tint/40 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-interactive active:scale-[0.99]";
+const pillClass =
+  "relative flex min-h-12 cursor-pointer items-center gap-2.5 rounded-full border border-stone bg-bg-primary px-4 text-sm font-bold leading-5 text-graphite transition-[border-color,background-color,transform] duration-150 ease-out hover:border-interactive/40 hover:bg-interactive-tint/30 has-[:checked]:border-interactive has-[:checked]:bg-interactive-tint/50 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-interactive active:scale-[0.99]";
+const radioMarkClass =
+  "grid size-4 shrink-0 place-items-center rounded-full border-[1.5px] border-stone transition-colors duration-150 ease-out peer-checked:border-interactive peer-checked:bg-interactive after:size-1.5 after:rounded-full after:bg-bg-primary after:opacity-0 after:content-[''] peer-checked:after:opacity-100";
+
 function validate(form: HTMLFormElement): Partial<Record<FieldKey, string>> {
   const data = new FormData(form);
   const errors: Partial<Record<FieldKey, string>> = {};
@@ -133,7 +149,7 @@ export function InquiryForm() {
 
   if (succeeded) {
     return (
-      <div className="rounded-3xl border border-stone bg-surface px-6 py-10 md:px-10 md:py-12">
+      <div className="rounded-3xl border border-stone bg-surface px-6 py-10 md:px-8 md:py-12">
         <h2
           ref={successRef}
           tabIndex={-1}
@@ -153,67 +169,54 @@ export function InquiryForm() {
       ref={formRef}
       noValidate
       onSubmit={onSubmit}
-      className="relative flex flex-col gap-8 rounded-3xl border border-stone bg-surface px-5 py-8 shadow-[0px_1px_3px_rgba(28,25,23,0.06),0px_1px_2px_rgba(28,25,23,0.04)] md:px-10 md:py-10"
+      className="relative flex flex-col gap-12 rounded-3xl border border-stone bg-surface px-5 py-8 md:px-8 md:py-10"
     >
-      <div className="flex flex-col gap-2">
-        <label htmlFor={`${ids}-name`} className="text-label-caps font-bold uppercase tracking-[0.08em] text-slate">
-          Your name
-        </label>
-        <input
-          id={`${ids}-name`}
-          name="name"
-          type="text"
-          autoComplete="name"
-          required
-          aria-invalid={errors.name ? true : undefined}
-          aria-describedby={errors.name ? `${ids}-name-err` : undefined}
-          onBlur={() => runField("name")}
-          className={cn(
-            "h-12 rounded-2xl border bg-bg-primary px-4 text-base text-graphite outline-none transition-[border-color,background-color] duration-150 ease-out placeholder:text-steel",
-            errors.name
-              ? "border-[#8B3A2A]"
-              : "border-stone hover:border-pebble focus-visible:border-interactive",
-          )}
-        />
-        {errors.name ? <FieldError id={`${ids}-name-err`}>{errors.name}</FieldError> : null}
+      <div className="flex flex-col gap-8">
+        <div className={fieldStack}>
+          <label htmlFor={`${ids}-name`} className={labelClass}>
+            Your name
+          </label>
+          <input
+            id={`${ids}-name`}
+            name="name"
+            type="text"
+            autoComplete="name"
+            required
+            aria-invalid={errors.name ? true : undefined}
+            aria-describedby={errors.name ? `${ids}-name-err` : undefined}
+            onBlur={() => runField("name")}
+            className={cn(controlClass, "h-12", errors.name ? controlError : controlIdle)}
+          />
+          {errors.name ? <FieldError id={`${ids}-name-err`}>{errors.name}</FieldError> : null}
+        </div>
+
+        <div className={fieldStack}>
+          <label htmlFor={`${ids}-email`} className={labelClass}>
+            Email
+          </label>
+          <input
+            id={`${ids}-email`}
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            aria-invalid={errors.email ? true : undefined}
+            aria-describedby={errors.email ? `${ids}-email-err` : undefined}
+            onBlur={() => runField("email")}
+            className={cn(controlClass, "h-12", errors.email ? controlError : controlIdle)}
+          />
+          {errors.email ? <FieldError id={`${ids}-email-err`}>{errors.email}</FieldError> : null}
+        </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor={`${ids}-email`} className="text-label-caps font-bold uppercase tracking-[0.08em] text-slate">
-          Email
-        </label>
-        <input
-          id={`${ids}-email`}
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          aria-invalid={errors.email ? true : undefined}
-          aria-describedby={errors.email ? `${ids}-email-err` : undefined}
-          onBlur={() => runField("email")}
-          className={cn(
-            "h-12 rounded-2xl border bg-bg-primary px-4 text-base text-graphite outline-none transition-[border-color,background-color] duration-150 ease-out placeholder:text-steel",
-            errors.email
-              ? "border-[#8B3A2A]"
-              : "border-stone hover:border-pebble focus-visible:border-interactive",
-          )}
-        />
-        {errors.email ? <FieldError id={`${ids}-email-err`}>{errors.email}</FieldError> : null}
-      </div>
-
-      <fieldset className="flex flex-col gap-3">
-        <legend className="text-label-caps font-bold uppercase tracking-[0.08em] text-slate">
-          What kind of project is this?
-        </legend>
-        <p id={`${ids}-project-help`} className="text-sm leading-5 text-slate">
+      <fieldset className={fieldStack}>
+        <legend className={labelClass}>What kind of project is this?</legend>
+        <p id={`${ids}-project-help`} className={helpClass}>
           Choose all that apply. Not sure is a fine answer.
         </p>
         <div className="grid grid-cols-1 gap-2">
           {projectTypes.map((type) => (
-            <label
-              key={type.value}
-              className="group relative flex min-h-11 cursor-pointer items-start gap-3 rounded-2xl border border-stone bg-bg-primary px-4 py-3.5 transition-[border-color,background-color] duration-150 ease-out hover:border-pebble has-[:checked]:border-interactive has-[:checked]:bg-interactive-tint/40 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-interactive"
-            >
+            <label key={type.value} className={cardClass}>
               <input
                 type="checkbox"
                 name="project_type"
@@ -227,13 +230,17 @@ export function InquiryForm() {
                 }
                 className="peer sr-only"
               />
-              <span className="mt-0.5 grid size-[22px] shrink-0 place-items-center rounded-[5px] border-[1.5px] border-stone bg-surface text-transparent transition-colors duration-150 ease-out peer-checked:border-interactive peer-checked:bg-interactive peer-checked:text-bg-primary">
+              <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-[5px] border-[1.5px] border-stone bg-surface text-transparent transition-colors duration-150 ease-out peer-checked:border-interactive peer-checked:bg-interactive peer-checked:text-bg-primary">
                 <CheckMark />
               </span>
-              <span className="flex min-w-0 flex-col gap-0.5">
-                <span className="text-base font-bold text-graphite">{type.title}</span>
+              <span className="flex min-w-0 flex-col gap-1">
+                <span className="text-base font-bold leading-5 text-graphite">
+                  {type.title}
+                </span>
                 {"description" in type && type.description ? (
-                  <span className="text-sm leading-5 text-slate">{type.description}</span>
+                  <span className="text-sm font-normal leading-5 text-slate">
+                    {type.description}
+                  </span>
                 ) : null}
               </span>
             </label>
@@ -244,21 +251,16 @@ export function InquiryForm() {
         ) : null}
       </fieldset>
 
-      <fieldset className="flex flex-col gap-3">
-        <legend className="text-label-caps font-bold uppercase tracking-[0.08em] text-slate">
-          What&apos;s your budget?
-        </legend>
-        <p id={`${ids}-budget-help`} className="text-sm leading-5 text-slate">
+      <fieldset className={fieldStack}>
+        <legend className={labelClass}>What&apos;s your budget?</legend>
+        <p id={`${ids}-budget-help`} className={helpClass}>
           A range is enough — it helps us shape the right approach.
         </p>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {budgetOptions.map((option) => (
             <label
               key={option}
-              className={cn(
-                "relative flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-stone bg-bg-primary px-4 text-sm font-bold text-graphite transition-[border-color,background-color] duration-150 ease-out hover:border-pebble has-[:checked]:border-interactive has-[:checked]:bg-interactive-tint/50 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-interactive",
-                option === "I'm not sure yet" && "sm:col-span-2",
-              )}
+              className={cn(pillClass, option === "I'm not sure yet" && "sm:col-span-2")}
             >
               <input
                 type="radio"
@@ -273,8 +275,8 @@ export function InquiryForm() {
                 }
                 className="peer sr-only"
               />
-              <span className="grid size-4 shrink-0 place-items-center rounded-full border-[1.5px] border-stone transition-colors duration-150 ease-out peer-checked:border-interactive peer-checked:bg-interactive after:size-1.5 after:rounded-full after:bg-bg-primary after:opacity-0 after:content-[''] peer-checked:after:opacity-100" />
-              {option}
+              <span className={radioMarkClass} />
+              <span className="min-w-0">{option}</span>
             </label>
           ))}
         </div>
@@ -283,32 +285,30 @@ export function InquiryForm() {
         ) : null}
       </fieldset>
 
-      <fieldset className="flex flex-col gap-3">
-        <legend className="text-label-caps font-bold uppercase tracking-[0.08em] text-slate">
+      <fieldset className={fieldStack}>
+        <legend className="sr-only">When would you like to start? Optional</legend>
+        <p className={cn(labelClass)}>
           When would you like to start?{" "}
-          <span className="font-bold normal-case tracking-normal text-steel">
+          <span className="font-normal normal-case tracking-normal text-steel">
             Optional
           </span>
-        </legend>
+        </p>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {timelineOptions.map((option) => (
             <label
               key={option}
-              className={cn(
-                "relative flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-stone bg-bg-primary px-4 text-center text-sm font-bold text-graphite transition-[border-color,background-color] duration-150 ease-out hover:border-pebble has-[:checked]:border-interactive has-[:checked]:bg-interactive-tint/50 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-interactive",
-                option === "Just exploring" && "sm:col-span-2",
-              )}
+              className={cn(pillClass, option === "Just exploring" && "sm:col-span-2")}
             >
               <input type="radio" name="timeline" value={option} className="peer sr-only" />
-              <span className="grid size-4 shrink-0 place-items-center rounded-full border-[1.5px] border-stone transition-colors duration-150 ease-out peer-checked:border-interactive peer-checked:bg-interactive after:size-1.5 after:rounded-full after:bg-bg-primary after:opacity-0 after:content-[''] peer-checked:after:opacity-100" />
-              {option}
+              <span className={radioMarkClass} />
+              <span className="min-w-0">{option}</span>
             </label>
           ))}
         </div>
       </fieldset>
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor={`${ids}-message`} className="text-label-caps font-bold uppercase tracking-[0.08em] text-slate">
+      <div className={fieldStack}>
+        <label htmlFor={`${ids}-message`} className={labelClass}>
           Tell us about it
         </label>
         <textarea
@@ -321,10 +321,9 @@ export function InquiryForm() {
           aria-describedby={errors.message ? `${ids}-message-err` : undefined}
           onBlur={() => runField("message")}
           className={cn(
-            "min-h-36 resize-y rounded-2xl border bg-bg-primary px-4 py-3 text-base leading-6 text-graphite outline-none transition-[border-color] duration-150 ease-out placeholder:text-steel",
-            errors.message
-              ? "border-[#8B3A2A]"
-              : "border-stone hover:border-pebble focus-visible:border-interactive",
+            controlClass,
+            "min-h-36 resize-y py-3 leading-6",
+            errors.message ? controlError : controlIdle,
           )}
         />
         {errors.message ? (
@@ -332,7 +331,7 @@ export function InquiryForm() {
         ) : null}
       </div>
 
-      <div className="absolute left-[-9999px] h-px w-px overflow-hidden" aria-hidden="true">
+      <div className="sr-only" aria-hidden="true">
         <label htmlFor={`${ids}-hp`}>Website</label>
         <input
           id={`${ids}-hp`}
@@ -352,7 +351,10 @@ export function InquiryForm() {
           <span>
             Something went wrong on our end — your message wasn&apos;t lost. Try
             sending again, or email us directly at{" "}
-            <a className="font-bold underline underline-offset-2" href="mailto:hello@humbol.studio">
+            <a
+              className="font-bold underline underline-offset-2"
+              href="mailto:hello@humbol.studio"
+            >
               hello@humbol.studio
             </a>
             .
@@ -363,7 +365,7 @@ export function InquiryForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="inline-flex h-12 items-center justify-center rounded-full bg-interactive px-6 text-base font-bold text-bg-primary transition-colors duration-150 ease-out hover:bg-interactive-hover active:bg-interactive-pressed disabled:cursor-wait disabled:opacity-70"
+        className="inline-flex h-12 w-full items-center justify-center rounded-full bg-interactive px-6 text-base font-bold text-bg-primary transition-colors duration-150 ease-out hover:bg-interactive-hover active:scale-[0.99] active:bg-interactive-pressed disabled:cursor-wait disabled:opacity-70"
       >
         {showSending ? "Sending…" : "Send inquiry"}
       </button>
