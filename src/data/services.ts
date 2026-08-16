@@ -1,9 +1,12 @@
+export type ServiceTone = "mist" | "stone" | "fog" | "paper";
+
 export type Service = {
   id: string;
   title: string;
   label: string;
   description: string;
   icon: string;
+  tone: ServiceTone;
 };
 
 export const services: Service[] = [
@@ -12,6 +15,7 @@ export const services: Service[] = [
     title: "UX & Product Design",
     label: "UX & Product",
     icon: "/icons/compass.svg",
+    tone: "mist",
     description:
       "We map the problem before we touch a screen. From discovery to shipped product — built to hold up under real use.",
   },
@@ -20,6 +24,7 @@ export const services: Service[] = [
     title: "Design Systems",
     label: "Systems",
     icon: "/icons/layers.svg",
+    tone: "stone",
     description:
       "Consistency at scale. We build component libraries, define design tokens, and write documentation your team will actually open.",
   },
@@ -28,6 +33,7 @@ export const services: Service[] = [
     title: "Web & Mobile Design",
     label: "Web & Mobile",
     icon: "/icons/devices.svg",
+    tone: "fog",
     description:
       "Interfaces that feel native to their platform and right for their users. Clean, intentional, and built with the handoff already in mind.",
   },
@@ -36,6 +42,7 @@ export const services: Service[] = [
     title: "SaaS Product Design",
     label: "SaaS",
     icon: "/icons/dashboard.svg",
+    tone: "paper",
     description:
       "The surfaces where UX decisions have real business consequences — dashboards, onboarding, billing, permissions. We've designed these before. We know where things go wrong.",
   },

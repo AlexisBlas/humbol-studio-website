@@ -25,3 +25,26 @@ export function SectionRow({ id, label, children, className }: SectionRowProps) 
     </section>
   );
 }
+
+type SectionIntroProps = {
+  title: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+};
+
+/** Headline on the left, supporting copy on the right, tops aligned. */
+export function SectionIntro({ title, children, className }: SectionIntroProps) {
+  return (
+    <div
+      className={cn(
+        "grid grid-cols-1 items-start gap-8 md:grid-cols-12 md:gap-x-16",
+        className,
+      )}
+    >
+      <h2 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:col-span-4 md:text-[33px]">
+        {title}
+      </h2>
+      <div className="md:col-span-8">{children}</div>
+    </div>
+  );
+}

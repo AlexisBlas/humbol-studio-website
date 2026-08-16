@@ -1,26 +1,29 @@
-import { services } from "@/data/services";
-import { SectionRow } from "@/components/ui/SectionRow";
-import { ServiceCard } from "@/components/ui/ServiceCard";
+import { Container } from "@/components/ui/Container";
+import { SectionIntro } from "@/components/ui/SectionRow";
+import { ServicesField } from "@/components/sections/ServicesField";
 
 export function Services() {
   return (
-    <SectionRow id="services" label="Services">
-      <div className="flex flex-col gap-4">
-        <h2 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
-          Research-grounded.
-          <br />
-          Ship-ready.
-        </h2>
-        <p className="max-w-[815px] text-[19px] leading-[1.5] text-iron">
-          Every engagement starts with understanding. Every deliverable is
-          designed to be built, not just presented.
-        </p>
-      </div>
-      <div className="grid grid-cols-1 gap-gutter md:grid-cols-2">
-        {services.map((service) => (
-          <ServiceCard key={service.id} service={service} />
-        ))}
-      </div>
-    </SectionRow>
+    <section id="services" className="w-full scroll-mt-16 pb-28 md:pb-36">
+      <Container>
+        <SectionIntro
+          title={
+            <>
+              Research-grounded.
+              <br />
+              Ship-ready.
+            </>
+          }
+        >
+          <p className="max-w-[42rem] text-body-md leading-6 text-iron">
+            Every engagement starts with understanding. Every deliverable is
+            designed to be built, not just presented.
+          </p>
+        </SectionIntro>
+        <div className="mt-12 md:mt-16">
+          <ServicesField />
+        </div>
+      </Container>
+    </section>
   );
 }
