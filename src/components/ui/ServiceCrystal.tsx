@@ -249,6 +249,35 @@ type ServiceCrystalProps = {
   tone: ServiceTone;
 };
 
+type CrystalTick = (now: number) => void;
+
+const crystalTicks = new Set<CrystalTick>();
+let crystalRaf = 0;
+let crystalLast = 0;
+const CRYSTAL_FRAME_MS = 1000 / 30;
+
+function crystalLoop(now: number) {
+  crystalRaf = requestAnimationFrame(crystalLoop);
+  if (now - crystalLast < CRYSTAL_FRAME_MS - 1) return;
+  crystalLast = now;
+  crystalTicks.forEach((tick) => tick(now));
+}
+
+function subscribeCrystalTick(tick: CrystalTick) {
+  crystalTicks.add(tick);
+  if (crystalTicks.size === 1) {
+    crystalLast = 0;
+    crystalRaf = requestAnimationFrame(crystalLoop);
+  }
+  return () => {
+    crystalTicks.delete(tick);
+    if (crystalTicks.size === 0) {
+      cancelAnimationFrame(crystalRaf);
+      crystalRaf = 0;
+    }
+  };
+}
+
 export function ServiceCrystal({ tone }: ServiceCrystalProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const clipId = useId();
@@ -263,10 +292,9 @@ export function ServiceCrystal({ tone }: ServiceCrystalProps) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const nodes = [...svg.querySelectorAll("polygon")];
-    let raf = 0;
-    let running = false;
-    let inView = true;
+    let inView = false;
     let pageVisible = !document.hidden;
+    let unsubscribe: (() => void) | null = null;
     const start = performance.now();
 
     const apply = (ax: number, ay: number) => {
@@ -284,30 +312,26 @@ export function ServiceCrystal({ tone }: ServiceCrystalProps) {
     };
 
     const tick = (now: number) => {
-      if (!running) return;
-      raf = requestAnimationFrame(tick);
       const hovered = svg.closest(".group")?.matches(":hover") ?? false;
       const t = (now - start) / 1000;
       const speed = pose.speed * (hovered ? 1.8 : 1);
       apply(pose.ax + t * speed * 0.35, pose.ay + t * speed);
     };
 
-    const startLoop = () => {
-      if (running || !inView || !pageVisible) return;
-      running = true;
-      raf = requestAnimationFrame(tick);
-    };
-
-    const stopLoop = () => {
-      running = false;
-      cancelAnimationFrame(raf);
+    const sync = () => {
+      const shouldRun = inView && pageVisible;
+      if (shouldRun && !unsubscribe) {
+        unsubscribe = subscribeCrystalTick(tick);
+      } else if (!shouldRun && unsubscribe) {
+        unsubscribe();
+        unsubscribe = null;
+      }
     };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         inView = Boolean(entry?.isIntersecting);
-        if (inView) startLoop();
-        else stopLoop();
+        sync();
       },
       { threshold: 0.05 },
     );
@@ -315,14 +339,12 @@ export function ServiceCrystal({ tone }: ServiceCrystalProps) {
 
     const onVisibility = () => {
       pageVisible = !document.hidden;
-      if (pageVisible) startLoop();
-      else stopLoop();
+      sync();
     };
     document.addEventListener("visibilitychange", onVisibility);
-    startLoop();
 
     return () => {
-      stopLoop();
+      unsubscribe?.();
       observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
     };
