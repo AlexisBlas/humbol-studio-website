@@ -24,7 +24,7 @@ export function Brands() {
   return (
     <section id="brands" className="w-full scroll-mt-16 pb-24 md:pb-32">
       <Container>
-        <div className="mx-auto flex max-w-[40rem] flex-col items-center gap-4 text-center">
+        <div className="mx-auto flex max-w-[36rem] flex-col items-center gap-4 text-center">
           <SectionLabel>Clients & brands</SectionLabel>
           <h2 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
             Brands we&apos;ve helped shape — through studios, agencies, and
@@ -32,29 +32,31 @@ export function Brands() {
           </h2>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 md:mt-16">
-          <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-stone shadow-[0px_1px_3px_rgba(28,25,23,0.06),0px_1px_2px_rgba(28,25,23,0.04)] md:grid-cols-5">
-            {brands.map((brand) => (
-              <li
-                key={brand.name}
-                className="group flex h-[92px] items-center justify-center bg-surface px-5 md:h-[108px]"
-              >
-                <Image
-                  src={brand.src}
-                  alt={brand.name}
-                  width={140}
-                  height={40}
-                  className="h-5 w-auto max-w-[88%] object-contain opacity-70 transition-opacity duration-300 ease-out group-hover:opacity-100 md:h-7"
-                />
-              </li>
-            ))}
-          </ul>
-          <p className="pt-2 text-center text-[11px] leading-4 text-steel">
-            Logos are trademarks of their respective owners and are displayed
-            solely to identify products and organizations I&apos;ve contributed
-            to.
-          </p>
-        </div>
+        <ul
+          aria-label="Clients and brands"
+          className="mt-14 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 md:mt-20 md:gap-x-10 md:gap-y-14 lg:grid-cols-5"
+        >
+          {brands.map((brand) => (
+            <li
+              key={brand.name}
+              className="group flex min-h-11 items-center justify-center"
+            >
+              <Image
+                src={brand.src}
+                alt={brand.name}
+                width={160}
+                height={48}
+                className="h-6 w-auto max-w-[7.5rem] object-contain opacity-80 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none motion-reduce:group-hover:scale-100 md:h-8 md:max-w-[8.5rem] [@media(hover:hover)_and_(pointer:fine)]:opacity-[0.62] [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.04] [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100"
+              />
+            </li>
+          ))}
+        </ul>
+
+        <p className="mx-auto mt-12 text-center text-xs leading-5 text-slate md:mt-16 md:whitespace-nowrap">
+          Logos are trademarks of their respective owners and are displayed
+          solely to identify products and organizations I&apos;ve contributed
+          to.
+        </p>
       </Container>
     </section>
   );
