@@ -142,7 +142,7 @@ export function Hero() {
             on.
           </h1>
           <div
-            className="absolute inset-0 z-10 flex items-center px-margin-mobile md:px-stack-lg"
+            className="absolute inset-0 z-10 flex items-center"
             aria-hidden="true"
           >
             <div className="relative w-full aspect-[1376/402]">
