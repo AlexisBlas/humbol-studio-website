@@ -1,6 +1,11 @@
+"use client";
+
+import { MotionConfig, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { hoverSpring, useFineHover } from "@/lib/use-fine-hover";
 
 const brands = [
   { name: "FirstBank", src: "/brands/first_bank.svg" },
@@ -20,44 +25,76 @@ const brands = [
   { name: "Caribbean Cinemas", src: "/brands/caribbean_cinemas.svg" },
 ] as const;
 
-export function Brands() {
+function BrandLogo({
+  name,
+  src,
+  canHover,
+}: {
+  name: string;
+  src: string;
+  canHover: boolean;
+}) {
+  const reduceMotion = useReducedMotion();
+  const [hovered, setHovered] = useState(false);
+  const live = Boolean(canHover && !reduceMotion && hovered);
+
   return (
-    <section id="brands" className="w-full scroll-mt-16 pb-24 md:pb-32">
-      <Container>
-        <div className="mx-auto flex max-w-[36rem] flex-col items-center gap-4 text-center">
-          <SectionLabel>Clients & brands</SectionLabel>
-          <h2 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
-            Brands we&apos;ve helped shape — through studios, agencies, and
-            direct partnerships.
-          </h2>
-        </div>
+    <motion.div
+      className="flex min-h-14 w-full items-center justify-center md:min-h-16"
+      onHoverStart={() => {
+        if (canHover) setHovered(true);
+      }}
+      onHoverEnd={() => setHovered(false)}
+      animate={{
+        scale: live ? 1.06 : 1,
+        opacity: live ? 1 : canHover ? 0.55 : 0.8,
+      }}
+      transition={hoverSpring}
+    >
+      <Image
+        src={src}
+        alt={name}
+        width={160}
+        height={48}
+        className="pointer-events-none h-6 w-auto max-w-[7.5rem] object-contain grayscale md:h-8 md:max-w-[8.5rem]"
+      />
+    </motion.div>
+  );
+}
 
-        <ul
-          aria-label="Clients and brands"
-          className="mt-14 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 md:mt-20 md:gap-x-10 md:gap-y-14 lg:grid-cols-5"
-        >
-          {brands.map((brand) => (
-            <li
-              key={brand.name}
-              className="group flex min-h-11 items-center justify-center"
-            >
-              <Image
-                src={brand.src}
-                alt={brand.name}
-                width={160}
-                height={48}
-                className="h-6 w-auto max-w-[7.5rem] object-contain grayscale opacity-80 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none motion-reduce:group-hover:scale-100 md:h-8 md:max-w-[8.5rem] [@media(hover:hover)_and_(pointer:fine)]:opacity-[0.62] [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.04] [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100"
-              />
-            </li>
-          ))}
-        </ul>
+export function Brands() {
+  const canHover = useFineHover();
 
-        <p className="mx-auto mt-12 text-center text-xs leading-5 text-slate md:mt-16 md:whitespace-nowrap">
-          Logos are trademarks of their respective owners and are displayed
-          solely to identify products and organizations I&apos;ve contributed
-          to.
-        </p>
-      </Container>
-    </section>
+  return (
+    <MotionConfig reducedMotion="user">
+      <section id="brands" className="w-full scroll-mt-16 pb-24 md:pb-32">
+        <Container>
+          <div className="mx-auto flex max-w-[36rem] flex-col items-center gap-4 text-center">
+            <SectionLabel>Clients & brands</SectionLabel>
+            <h2 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
+              Brands we&apos;ve helped shape — through studios, agencies, and
+              direct partnerships.
+            </h2>
+          </div>
+
+          <ul
+            aria-label="Clients and brands"
+            className="mt-14 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 md:mt-20 md:gap-x-10 md:gap-y-14 lg:grid-cols-5"
+          >
+            {brands.map((brand) => (
+              <li key={brand.name}>
+                <BrandLogo name={brand.name} src={brand.src} canHover={canHover} />
+              </li>
+            ))}
+          </ul>
+
+          <p className="mx-auto mt-12 text-center text-xs leading-5 text-slate md:mt-16 md:whitespace-nowrap">
+            Logos are trademarks of their respective owners and are displayed
+            solely to identify products and organizations I&apos;ve contributed
+            to.
+          </p>
+        </Container>
+      </section>
+    </MotionConfig>
   );
 }
