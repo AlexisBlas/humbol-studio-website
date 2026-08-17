@@ -20,16 +20,15 @@ export function About() {
               direct partnerships.
             </p>
             <p>
-              humbol is a design studio built on a simple tension: go deep
-              before you conclude, then commit to a clear position. We work at
-              the intersection of research, systems thinking, and craft — for
-              founders and organizations where design can actually make a
-              difference.
+              humbol is a design studio built on a simple tension: humble enough
+              to go deep, bold enough to take a position. Research, systems
+              thinking, and craft — for founders and organizations where design
+              carries real weight.
             </p>
             <p>
-              From SaaS products and consumer experiences to design systems for
-              teams of every size — one designer, end to end, with no handoffs
-              and nothing lost in translation.
+              SaaS products, consumer experiences, design systems that scale.
+              One designer sees it all through, so the person who hears your
+              problem is the person who ships the solution.
             </p>
           </div>
         </SectionIntro>
