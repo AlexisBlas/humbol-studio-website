@@ -46,7 +46,7 @@ export function Brands() {
                 alt={brand.name}
                 width={160}
                 height={48}
-                className="h-6 w-auto max-w-[7.5rem] object-contain opacity-80 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none motion-reduce:group-hover:scale-100 md:h-8 md:max-w-[8.5rem] [@media(hover:hover)_and_(pointer:fine)]:opacity-[0.62] [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.04] [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100"
+                className="h-6 w-auto max-w-[7.5rem] object-contain grayscale opacity-80 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none motion-reduce:group-hover:scale-100 md:h-8 md:max-w-[8.5rem] [@media(hover:hover)_and_(pointer:fine)]:opacity-[0.62] [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.04] [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100"
               />
             </li>
           ))}
