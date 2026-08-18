@@ -40,7 +40,7 @@ function BrandLogo({
 
   return (
     <motion.div
-      className="flex min-h-14 w-full items-center justify-center md:min-h-16"
+      className="flex min-h-11 w-full items-center justify-center"
       onHoverStart={() => {
         if (canHover) setHovered(true);
       }}
@@ -79,7 +79,7 @@ export function Brands() {
 
           <ul
             aria-label="Clients and brands"
-            className="mt-14 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 md:mt-20 md:gap-x-10 md:gap-y-14 lg:grid-cols-5"
+            className="mt-14 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 md:mt-20 md:gap-x-10 lg:grid-cols-5"
           >
             {brands.map((brand) => (
               <li key={brand.name}>

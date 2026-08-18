@@ -16,19 +16,20 @@ export function Contact() {
           <p className="text-headline-md font-bold leading-8 text-slate">
             Let&apos;s find out if we&apos;re a fit.
           </p>
-          <p className="pt-2 text-body-md leading-6 text-slate">
+          <p className="pt-2 text-body-md leading-6 text-pretty text-slate">
             humbol is{" "}
             <a
               href="https://alexisblas.work"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold text-interactive underline decoration-interactive/30 underline-offset-2 transition-colors hover:text-interactive-hover hover:decoration-interactive-hover"
+              className="whitespace-nowrap font-bold text-interactive underline decoration-interactive/30 underline-offset-2 transition-colors hover:text-interactive-hover hover:decoration-interactive-hover"
             >
               one designer
             </a>
-            , by design. I take on a small number of projects at a time — so
-            every engagement gets real focus. If you&apos;re building something
-            you believe in, I&apos;d like to hear about it.
+            , by&nbsp;design. I take on a small number of projects at
+            a&nbsp;time — so every engagement gets real&nbsp;focus. If
+            you&apos;re building something you believe&nbsp;in, I&apos;d like to
+            hear&nbsp;about&nbsp;it.
           </p>
           <a
             href="/contact"
