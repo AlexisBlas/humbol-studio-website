@@ -1,7 +1,9 @@
+import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
 const footerLinks = [
+  { label: "Home", href: "/" },
   { label: "About", href: "/#about" },
   { label: "Services", href: "/#services" },
   { label: "Contact", href: "/contact" },
@@ -24,6 +26,9 @@ const socials = [
     icon: LinkedInIcon,
   },
 ] as const;
+
+const linkTransition =
+  "transition-colors duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -57,70 +62,95 @@ function LinkedInIcon({ className }: { className?: string }) {
 export function SiteFooter() {
   return (
     <footer className="w-full bg-surface">
-      <div className="mx-auto flex w-full max-w-[1440px] items-start justify-between gap-8 px-margin-mobile py-12 md:px-10">
-        <div className="flex flex-col gap-2">
-          <Logo className="h-6" />
-          <p className="text-sm leading-5 text-iron">Shape that matters.</p>
-          <p className="text-xs leading-5 text-iron-slate">
-            hello@humbol.studio
-          </p>
-        </div>
-        <div className="flex flex-col items-end gap-4">
-          <ul className="flex items-center gap-3" aria-label="Social media">
-            {socials.map((social) => {
-              const Icon = social.icon;
-              const className = cn(
-                "flex size-9 items-center justify-center rounded-full text-iron transition-colors",
-                social.href
-                  ? "hover:bg-bg-primary hover:text-graphite"
-                  : "cursor-default opacity-35",
-              );
+      <Container className="py-16 md:py-20">
+        <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between md:gap-16">
+          <div className="flex max-w-sm flex-col gap-3">
+            <a href="/" aria-label="humbol — home" className="w-fit">
+              <Logo className="h-6" />
+            </a>
+            <p className="text-body-md leading-6 text-iron">
+              Shape that matters.
+            </p>
+            <a
+              href="mailto:hello@humbol.studio"
+              className={cn(
+                "w-fit text-base font-bold text-interactive underline decoration-interactive/30 underline-offset-2",
+                linkTransition,
+                "hover:text-interactive-hover hover:decoration-interactive-hover",
+              )}
+            >
+              hello@humbol.studio
+            </a>
+          </div>
 
-              if (!social.href) {
+          <div className="flex flex-col gap-8 md:items-end">
+            <nav aria-label="Footer">
+              <ul className="flex flex-col sm:flex-row sm:flex-wrap sm:justify-end">
+                {footerLinks.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className={cn(
+                        "inline-flex min-h-11 cursor-pointer items-center text-base font-bold text-iron sm:px-3",
+                        linkTransition,
+                        "hover:text-interactive",
+                      )}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <ul className="flex items-center gap-2" aria-label="Social media">
+              {socials.map((social) => {
+                const Icon = social.icon;
+                const className = cn(
+                  "flex size-11 items-center justify-center rounded-full text-iron",
+                  linkTransition,
+                  social.href
+                    ? "cursor-pointer hover:bg-bg-primary hover:text-interactive"
+                    : "cursor-default opacity-[0.38]",
+                );
+
+                if (!social.href) {
+                  return (
+                    <li key={social.label}>
+                      <span
+                        className={className}
+                        title={`${social.label} — coming soon`}
+                        aria-label={`${social.label} (coming soon)`}
+                      >
+                        <Icon className="size-5" />
+                      </span>
+                    </li>
+                  );
+                }
+
                 return (
                   <li key={social.label}>
-                    <span
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
                       className={className}
-                      title={`${social.label} — coming soon`}
-                      aria-label={`${social.label} (coming soon)`}
                     >
-                      <Icon className="size-4" />
-                    </span>
+                      <Icon className="size-5" />
+                    </a>
                   </li>
                 );
-              }
-
-              return (
-                <li key={social.label}>
-                  <a
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className={className}
-                  >
-                    <Icon className="size-4" />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-          <nav aria-label="Footer navigation">
-            <ul className="flex flex-col items-end gap-2">
-              {footerLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-[13px] leading-5 text-iron transition-colors hover:text-graphite"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
+              })}
             </ul>
-          </nav>
+          </div>
         </div>
-      </div>
+
+        <div className="mt-14 flex flex-col gap-2 border-t border-stone pt-8 md:mt-16 md:flex-row md:items-center md:justify-between">
+          <p className="text-sm leading-5 text-slate">© 2026 humbol</p>
+          <p className="text-sm leading-5 text-slate">San Juan, Puerto Rico</p>
+        </div>
+      </Container>
     </footer>
   );
 }
