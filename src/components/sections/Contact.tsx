@@ -1,3 +1,4 @@
+import { CalendlyButton } from "@/components/ui/CalendlyButton";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 
@@ -31,12 +32,15 @@ export function Contact() {
             you&apos;re building something you believe&nbsp;in, I&apos;d like to
             hear&nbsp;about&nbsp;it.
           </p>
-          <a
-            href="/contact"
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-interactive px-6 py-3.5 text-base font-bold text-bg-primary transition-colors hover:bg-interactive-hover active:bg-interactive-pressed"
-          >
-            Start a conversation
-          </a>
+          <div className="mt-4 flex w-full flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+            <a
+              href="/contact"
+              className="inline-flex min-h-12 cursor-pointer items-center justify-center rounded-full bg-interactive px-6 py-3.5 text-base font-bold text-bg-primary transition-colors duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-interactive-hover active:bg-interactive-pressed"
+            >
+              Start a conversation
+            </a>
+            <CalendlyButton />
+          </div>
           <p className="text-label-caps font-medium text-slate">
             hello@humbol.studio · San Juan, Puerto Rico
           </p>

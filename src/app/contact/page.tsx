@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { InquiryForm } from "@/components/inquiry/InquiryForm";
+import { CalendlyButton } from "@/components/ui/CalendlyButton";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 
@@ -27,6 +28,7 @@ export default function ContactPage() {
                 Tell us a little about your project. We read every message and
                 reply within two business days.
               </p>
+              <CalendlyButton className="mt-2 w-fit" />
             </div>
             <InquiryForm />
           </div>
