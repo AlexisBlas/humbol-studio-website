@@ -67,7 +67,7 @@ export function Brands() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section id="brands" className="w-full scroll-mt-16 pb-24 md:pb-32">
+      <section id="brands" className="w-full scroll-mt-16 border-t border-stone pt-20 pb-24 md:pt-28 md:pb-32">
         <Container>
           <div className="mx-auto flex max-w-[36rem] flex-col items-center gap-4 text-center">
             <SectionLabel>Clients & brands</SectionLabel>
