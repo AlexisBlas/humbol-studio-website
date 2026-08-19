@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/#about" },
+  { label: "Work", href: "/#work" },
   { label: "Services", href: "/#services" },
   { label: "Contact", href: "/contact" },
 ];
@@ -62,7 +63,7 @@ export function SiteHeader({ solid = false }: SiteHeaderProps) {
 
         {/* Desktop pill */}
         <nav aria-label="Main navigation" className="hidden md:block">
-          <ul className="flex h-12 items-center gap-8 rounded-full bg-indigo-deep px-6 py-2 backdrop-blur-[2px]">
+          <ul className="flex h-12 items-center gap-6 rounded-full bg-indigo-deep px-6 py-2 backdrop-blur-[2px]">
             {navItems.map((item) => (
               <li key={item.href}>
                 <a
