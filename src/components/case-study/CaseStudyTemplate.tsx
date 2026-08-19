@@ -223,8 +223,8 @@ function Block({ block }: { block: CaseStudyBlock }) {
                 </p>
               </div>
               <ul className="divide-y divide-stone border-t border-stone md:col-span-7">
-                {block.items.map((item) => (
-                  <li key={item.title} className="flex flex-col gap-2 py-6">
+                {block.items.map((item, index) => (
+                  <li key={`${item.title}-${index}`} className="flex flex-col gap-2 py-6">
                     <p className="text-lg font-bold leading-6 text-graphite">
                       {item.title}
                     </p>
