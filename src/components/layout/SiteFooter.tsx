@@ -17,12 +17,12 @@ const socials = [
   },
   {
     label: "X",
-    href: null as string | null,
+    href: "https://www.youtube.com/watch?v=QDia3e12czc",
     icon: XIcon,
   },
   {
     label: "LinkedIn",
-    href: null as string | null,
+    href: "https://www.youtube.com/watch?v=QDia3e12czc",
     icon: LinkedInIcon,
   },
 ] as const;
