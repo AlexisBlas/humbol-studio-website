@@ -4,7 +4,7 @@ import { ServicesField } from "@/components/sections/ServicesField";
 
 export function Services() {
   return (
-    <section id="services" className="w-full scroll-mt-16 pb-28 md:pb-36">
+    <section id="services" className="w-full scroll-mt-16 pb-10 md:pb-12">
       <Container>
         <SectionIntro
           title={

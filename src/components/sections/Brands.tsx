@@ -7,6 +7,8 @@ import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { hoverSpring, useFineHover } from "@/lib/use-fine-hover";
 
+const revealEase = [0.22, 1, 0.36, 1] as const;
+
 const brands = [
   { name: "FirstBank", src: "/brands/first_bank.svg" },
   { name: "WAPA.tv", src: "/brands/wapa.svg" },
@@ -64,35 +66,47 @@ function BrandLogo({
 
 export function Brands() {
   const canHover = useFineHover();
+  const reduceMotion = useReducedMotion();
 
   return (
     <MotionConfig reducedMotion="user">
-      <section id="brands" className="w-full scroll-mt-16 border-t border-stone pt-20 pb-24 md:pt-28 md:pb-32">
+      <section id="brands" className="w-full scroll-mt-16 py-20 md:py-24">
         <Container>
-          <div className="mx-auto flex max-w-[36rem] flex-col items-center gap-4 text-center">
-            <SectionLabel>Clients & brands</SectionLabel>
-            <h2 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
-              Brands we&apos;ve helped shape — through studios, agencies, and
-              direct partnerships.
-            </h2>
-          </div>
-
-          <ul
-            aria-label="Clients and brands"
-            className="mt-14 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 md:mt-20 md:gap-x-10 lg:grid-cols-5"
+          <motion.div
+            className="rounded-[2rem] bg-surface px-8 py-16 shadow-[0_1px_2px_rgba(26,28,32,0.04),0_20px_48px_-16px_rgba(26,28,32,0.1)] md:px-12 md:py-20"
+            initial={reduceMotion ? false : { opacity: 0, y: 56 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2, margin: "0px 0px -12% 0px" }}
+            transition={{
+              duration: 1.25,
+              ease: revealEase,
+            }}
           >
-            {brands.map((brand) => (
-              <li key={brand.name}>
-                <BrandLogo name={brand.name} src={brand.src} canHover={canHover} />
-              </li>
-            ))}
-          </ul>
+            <div className="mx-auto flex max-w-[36rem] flex-col items-center gap-4 text-center">
+              <SectionLabel>Clients & brands</SectionLabel>
+              <h2 className="text-[28px] font-bold leading-[1.2] tracking-[-0.02em] text-graphite md:text-[33px]">
+                Brands we&apos;ve helped shape — through studios, agencies, and
+                direct partnerships.
+              </h2>
+            </div>
 
-          <p className="mx-auto mt-12 text-center text-xs leading-5 text-slate md:mt-16 md:whitespace-nowrap">
-            Logos are trademarks of their respective owners and are displayed
-            solely to identify products and organizations I&apos;ve contributed
-            to.
-          </p>
+            <ul
+              aria-label="Clients and brands"
+              className="mt-14 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 md:mt-20 md:gap-x-10 lg:grid-cols-5"
+            >
+              {brands.map((brand) => (
+                <li key={brand.name}>
+                  <BrandLogo name={brand.name} src={brand.src} canHover={canHover} />
+                </li>
+              ))}
+            </ul>
+
+            <p className="mx-auto mt-12 max-w-[40rem] text-pretty text-center text-xs leading-5 text-slate md:mt-16">
+              Logos are trademarks of their respective owners and are displayed
+              solely to identify products and organizations I&apos;ve contributed
+              to.
+            </p>
+          </motion.div>
         </Container>
       </section>
     </MotionConfig>

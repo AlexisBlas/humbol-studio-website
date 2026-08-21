@@ -6,7 +6,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="w-full scroll-mt-16 border-t border-stone pt-20 pb-24 md:pt-28 md:pb-32"
+      className="w-full scroll-mt-16 pt-20 pb-28 md:pt-24 md:pb-36"
     >
       <Container>
         <div className="mx-auto flex max-w-[40rem] flex-col items-center gap-4 text-center">
