@@ -106,27 +106,6 @@ export function SiteFooter() {
             <ul className="flex items-center gap-2" aria-label="Social media">
               {socials.map((social) => {
                 const Icon = social.icon;
-                const className = cn(
-                  "flex size-11 items-center justify-center rounded-full text-iron",
-                  linkTransition,
-                  social.href
-                    ? "cursor-pointer hover:bg-bg-primary hover:text-interactive"
-                    : "cursor-default opacity-[0.38]",
-                );
-
-                if (!social.href) {
-                  return (
-                    <li key={social.label}>
-                      <span
-                        className={className}
-                        title={`${social.label} — coming soon`}
-                        aria-label={`${social.label} (coming soon)`}
-                      >
-                        <Icon className="size-5" />
-                      </span>
-                    </li>
-                  );
-                }
 
                 return (
                   <li key={social.label}>
@@ -135,7 +114,11 @@ export function SiteFooter() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.label}
-                      className={className}
+                      className={cn(
+                        "flex size-11 cursor-pointer items-center justify-center rounded-full text-iron",
+                        linkTransition,
+                        "hover:bg-bg-primary hover:text-interactive",
+                      )}
                     >
                       <Icon className="size-5" />
                     </a>
