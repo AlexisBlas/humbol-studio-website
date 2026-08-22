@@ -5,7 +5,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 
 export function SelectedWork() {
   return (
-    <section id="work" className="w-full pt-20">
+    <section id="work" className="w-full scroll-mt-16 pt-20">
       <Container className="grid grid-cols-1 gap-gutter pb-10 md:grid-cols-12">
         <div className="md:col-span-4">
           <SectionLabel>Selected work</SectionLabel>

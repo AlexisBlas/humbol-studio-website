@@ -11,8 +11,8 @@ type ProjectCardProps = {
 export function ProjectCard({ project, className }: ProjectCardProps) {
   return (
     <a
-      href="#"
-      aria-label={`View case study for ${project.title} — coming soon`}
+      href={`/work/${project.id}`}
+      aria-label={`View case study: ${project.title}`}
       className={cn(
         "group relative block min-h-[400px] overflow-hidden rounded-3xl md:min-h-[600px]",
         className,
@@ -24,6 +24,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           alt=""
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
+          unoptimized={project.image.startsWith("https://placehold.co")}
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
       ) : (
