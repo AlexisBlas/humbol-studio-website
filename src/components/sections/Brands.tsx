@@ -101,7 +101,7 @@ export function Brands() {
               ))}
             </ul>
 
-            <p className="mx-auto mt-12 max-w-[40rem] text-pretty text-center text-xs leading-5 text-slate md:mt-16">
+            <p className="mx-auto mt-12 text-center text-xs leading-5 text-slate md:mt-16 md:whitespace-nowrap">
               Logos are trademarks of their respective owners and are displayed
               solely to identify products and organizations I&apos;ve contributed
               to.
